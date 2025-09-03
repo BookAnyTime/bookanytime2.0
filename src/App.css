@@ -1,0 +1,67 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+:root {
+  --background: 255 255 255; /* light mode */
+  --foreground: 0 0 0;
+  --primary: 220 90% 56%;
+  --primary-foreground: 255 255 255;
+  --secondary: 210 50% 60%;
+  --secondary-foreground: 255 255 255;
+  --card: 255 255 255;
+  --card-foreground: 0 0 0;
+  /* Add the rest of your variables */
+}
+
+.dark {
+  --background: 17 24 39; /* dark mode background */
+  --foreground: 255 255 255;
+  --primary: 200 90% 56%;
+  --primary-foreground: 0 0 0;
+  --secondary: 180 50% 60%;
+  --secondary-foreground: 0 0 0;
+  --card: 31 41 55;
+  --card-foreground: 255 255 255;
+  /* Add the rest of your dark mode variables */
+}
+
