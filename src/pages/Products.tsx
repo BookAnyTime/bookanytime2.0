@@ -78,7 +78,7 @@ const Products = () => {
       try {
         setLoading(true);
         const response = await axios.get<Property[]>(
-          "http://localhost:3000/api/properties/getall"
+           `${import.meta.env.VITE_API_URL}/api/properties/getall`
         );
         const props = response.data;
 
