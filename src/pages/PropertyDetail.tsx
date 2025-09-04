@@ -664,7 +664,7 @@ const PropertyDetail = () => {
 
     const baseURL = isMobile
       ? `https://wa.me/91${property.whatsappNumber}`
-      : `https://web.whatsapp.com/send?phone=91${property.whatsappNumber}`;
+      : `https://web.whatsapp.com/send?phone=${property.whatsappNumber}`;
 
     const whatsappURL = `${baseURL}&text=${encodeURIComponent(message)}`;
 
