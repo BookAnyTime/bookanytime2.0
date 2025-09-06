@@ -372,7 +372,8 @@ const AdminPanel = () => {
 
   const handleLogout = () => {
     logout();
-    navigate("/");
+    // navigate("/");
+    window.open("/", "_blank")
   };
 
   return (
@@ -387,7 +388,10 @@ const AdminPanel = () => {
         {/* Only show buttons in header if not mobile */}
         {!isMobile && (
           <div className="header-right">
-            <Button variant="light" className="me-2" onClick={() => navigate("/")}>
+            <Button variant="light" className="me-2" onClick={() => 
+              // navigate("/")
+              window.open("/", "_blank")
+              }>
               <Home size={18} /> Back to Home
             </Button>
             <Button variant="danger" onClick={handleLogout}>
@@ -410,7 +414,10 @@ const AdminPanel = () => {
         {/* On mobile, move Home + Logout here */}
         {isMobile && (
           <div className="mt-3">
-            <Button variant="light" className="w-100 mb-2" onClick={() => { handleSidebarClick(); navigate("/"); }}>
+            <Button variant="light" className="w-100 mb-2" onClick={() => { handleSidebarClick(); 
+              // navigate("/");
+              window.open("/", "_blank")
+               }}>
               <Home size={18} /> Back to Home
             </Button>
             <Button variant="danger" className="w-100" onClick={handleLogout}>

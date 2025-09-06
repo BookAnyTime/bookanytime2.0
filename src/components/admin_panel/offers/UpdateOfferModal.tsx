@@ -13,6 +13,9 @@ const UpdateOfferModal = ({ show, handleClose }) => {
   const [removeImages, setRemoveImages] = useState([]);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [selectedname, setSelectedname] = useState("");
+  const [selectednames, setSelectednames] = useState(["EarlyBird","flash sales", "limited-time offers", "pre-order specials", "seasonal sales", "loyalty discounts"]);
+  
 
   useEffect(() => {
     axios
@@ -54,6 +57,7 @@ const UpdateOfferModal = ({ show, handleClose }) => {
         setStartDate(data.startDate.split("T")[0]);
         setEndDate(data.endDate.split("T")[0]);
         setExistingImages(data.image || []);
+        setSelectedname(data.name);
       })
       .catch((err) => console.error("Error fetching offer details:", err));
   };
@@ -78,6 +82,7 @@ const UpdateOfferModal = ({ show, handleClose }) => {
     formData.append("properties", JSON.stringify(selectedProperties));
     formData.append("startDate", startDate);
     formData.append("endDate", endDate);
+    formData.append("name", selectedname);
     if (removeImages.length > 0) {
       formData.append("removeImages", JSON.stringify(removeImages));
     }
@@ -97,6 +102,7 @@ const UpdateOfferModal = ({ show, handleClose }) => {
       setRemoveImages([]);
       setStartDate("");
       setEndDate("");
+      setSelectedname("");
       handleClose();
     } catch (error) {
       console.error("Error updating offer:", error);
@@ -176,6 +182,22 @@ const UpdateOfferModal = ({ show, handleClose }) => {
               ))}
             </select>
           </div>
+
+           <label className="block font-semibold">name</label>
+            <select
+              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={selectedname}
+              onChange={(e) => {
+                setSelectedname(e.target.value);
+              }}
+            >
+              <option value="">Select name</option>
+              {selectednames.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
+            </select>
 
           {/* Existing Images */}
           {existingImages.length > 0 && (

@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -39,6 +39,7 @@ const PropertyCard = ({
   const [loading, setLoading] = useState(false);
   const [isWishlisted, setIsWishlisted] = useState(property.isWishlisted ?? false);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const userId =  JSON.parse(localStorage.getItem("user"))?.id;
 
@@ -86,12 +87,16 @@ const PropertyCard = ({
 
   return (
     <>
-      <Card className="overflow-hidden hover:shadow-brand-lg transition-all duration-300 group">
+      <Card className="overflow-hidden hover:shadow-brand-lg transition-all duration-300 group" >
         <div className="relative">
           <img
             src={property.images?.[0] || "/placeholder.jpg"}
             alt={property.name}
             className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+            onClick={()=>
+              // navigate(`/property/${property._id}`)
+              window.open(`/property/${property._id}`, "_blank")
+            }
           />
           <div className="absolute top-3 left-3">
             <Badge variant="secondary" className="capitalize">
@@ -117,7 +122,10 @@ const PropertyCard = ({
           </Button>
         </div>
 
-        <CardContent className="p-4">
+        <CardContent className="p-4" onClick={()=>
+          // navigate(`/property/${property._id}`)
+          window.open(`/property/${property._id}`, "_blank")
+          }>
           <div className="space-y-2">
             {/* Rating */}
             <div className="flex items-center space-x-2">
@@ -159,9 +167,6 @@ const PropertyCard = ({
                 </span>
                 <span className="text-sm text-muted-foreground"> /night</span>
               </div>
-              <Button asChild className="bg-primary hover:bg-primary-hover">
-                <Link to={`/property/${property._id}`}>View Details</Link>
-              </Button>
             </div>
           </div>
         </CardContent>

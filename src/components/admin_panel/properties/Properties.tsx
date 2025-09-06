@@ -85,7 +85,8 @@ const Properties = () => {
       <div className="flex justify-center gap-4 mb-8 flex-wrap">
         <button
           className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-          onClick={() => navigate("/admin/add-property")}
+          onClick={() => 
+            navigate("/admin/add-property")}
         >
           Add Property
         </button>

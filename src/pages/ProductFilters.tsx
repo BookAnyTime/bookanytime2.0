@@ -1,14 +1,17 @@
 
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 type Filters = {
   categories: string[];
   locations: string[];
   amenities: string[];
   priceRange: [number, number];
+  radius: number;
+  userLocation: { lat: number; lng: number } | null;
+  capacity: { adults: number; bedrooms: number };
 };
 
 type FilterOptions = {
@@ -17,6 +20,8 @@ type FilterOptions = {
   amenities: string[];
   minPrice: number;
   maxPrice: number;
+  maxRadius: number;
+  maxCapacity: { adults: number; bedrooms: number };
 };
 
 type Props = {
@@ -25,107 +30,290 @@ type Props = {
   onFiltersChange: (filters: Filters) => void;
 };
 
-const ProductFilters = ({ filterOptions, activeFilters, onFiltersChange }: Props) => {
-  const [price, setPrice] = useState<[number, number]>(activeFilters.priceRange);
+const ProductFilters = ({
+  filterOptions,
+  activeFilters,
+  onFiltersChange,
+}: Props) => {
+  const [price, setPrice] = useState<[number, number]>(
+    activeFilters.priceRange
+  );
+  const [radius, setRadius] = useState(activeFilters.radius);
+  const [location, setLocation] = useState<{ lat: number; lng: number } | null>(
+    activeFilters.userLocation
+  );
+  const [radiusTouched, setRadiusTouched] = useState(false);
 
-  const toggleFilter = (type: keyof Filters, value: string) => {
-    const current = activeFilters[type];
-    const updated = current.includes(value)
-      ? current.filter((v) => v !== value)
-      : [...current, value];
+  // Fold states
+  const [openCategories, setOpenCategories] = useState(true);
+  const [openLocations, setOpenLocations] = useState(true);
+  const [openAmenities, setOpenAmenities] = useState(true);
+  const [openPrice, setOpenPrice] = useState(true);
+  const [openRadius, setOpenRadius] = useState(true);
+  const [openCapacity, setOpenCapacity] = useState(true);
 
-    onFiltersChange({
-      ...activeFilters,
-      [type]: updated,
+  useEffect(() => {
+    if (!location && navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((pos) => {
+        const coords = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+        setLocation(coords);
+        onFiltersChange((prev) => ({ ...prev, userLocation: coords }));
+      });
+    }
+  }, [location]);
+
+  const toggleFilter = (
+    type: "categories" | "locations" | "amenities",
+    value: string
+  ) => {
+    onFiltersChange((prev) => {
+      const current = prev[type];
+      const updated = current.includes(value)
+        ? current.filter((v) => v !== value)
+        : [...current, value];
+      return { ...prev, [type]: updated };
     });
   };
 
   const handlePriceChange = (newPrice: [number, number]) => {
     setPrice(newPrice);
-    onFiltersChange({
-      ...activeFilters,
-      priceRange: newPrice,
+    onFiltersChange((prev) => ({ ...prev, priceRange: newPrice }));
+  };
+
+  const handleRadiusChange = (val: number) => {
+    setRadius(val);
+    setRadiusTouched(true);
+    onFiltersChange((prev) => ({ ...prev, radius: val }));
+  };
+
+  const changeCapacity = (type: "adults" | "bedrooms", delta: number) => {
+    onFiltersChange((prev) => {
+      const currentCapacity = prev.capacity ?? { adults: 0, bedrooms: 0 };
+      const maxCapacity = filterOptions.maxCapacity[type];
+      const newValue = Math.min(
+        maxCapacity,
+        Math.max(0, currentCapacity[type] + delta)
+      );
+      return { ...prev, capacity: { ...currentCapacity, [type]: newValue } };
     });
   };
 
+  const clearFilters = () => {
+    onFiltersChange({
+      categories: [],
+      locations: [],
+      amenities: [],
+      priceRange: [filterOptions.minPrice, filterOptions.maxPrice],
+      radius: 0,
+      userLocation: location,
+      capacity: { adults: 0, bedrooms: 0 },
+    });
+    setPrice([filterOptions.minPrice, filterOptions.maxPrice]);
+    setRadius(0);
+  };
+
   return (
-    <div className="space-y-8 p-6 bg-white dark:bg-gray-900 rounded-xl shadow-md">
-      {/* Categories */}
-      <h3 className="font-semibold text-gray-700 dark:text-gray-200 mb-3 text-lg">Filters</h3>
-      <div>
-        <h3 className="font-semibold text-gray-700 dark:text-gray-200 mb-3 text-lg">Categories</h3>
-        <div className="space-y-2">
-          {filterOptions.categories.map((c) => (
-            <div
-              key={c}
-              className="flex items-center space-x-2 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition"
-            >
-              <Checkbox
-                checked={activeFilters.categories.includes(c)}
-                onCheckedChange={() => toggleFilter("categories", c)}
-              />
-              <label className="text-gray-700 dark:text-gray-200">{c}</label>
-            </div>
-          ))}
-        </div>
+    <div className="space-y-6 p-6 bg-white dark:bg-gray-900 rounded-xl shadow-md">
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="font-semibold text-gray-700 dark:text-gray-200 text-lg">
+          Filters
+        </h3>
+        <button
+          className="text-sm text-red-500 hover:underline"
+          onClick={clearFilters}
+        >
+          Clear Filters
+        </button>
       </div>
 
-      {/* Locations */}
-      <div>
-        <h3 className="font-semibold text-gray-700 dark:text-gray-200 mb-3 text-lg">Locations</h3>
-        <div className="space-y-2">
-          {filterOptions.locations.map((l) => (
-            <div
-              key={l}
-              className="flex items-center space-x-2 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition"
-            >
-              <Checkbox
-                checked={activeFilters.locations.includes(l)}
-                onCheckedChange={() => toggleFilter("locations", l)}
-              />
-              <label className="text-gray-700 dark:text-gray-200">{l}</label>
-            </div>
-          ))}
+       {/* Categories */}
+      <div className="border p-3 rounded-md">
+        <div
+          className="flex justify-between items-center cursor-pointer"
+          onClick={() => setOpenCategories(!openCategories)}
+        >
+          <h3 className="font-semibold text-gray-700 dark:text-gray-200 text-lg">
+            Categories
+          </h3>
+          {openCategories ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
         </div>
-      </div>
-
-      {/* Amenities */}
-      <div>
-        <h3 className="font-semibold text-gray-700 dark:text-gray-200 mb-3 text-lg">Amenities</h3>
-        <div className="space-y-2">
-          {filterOptions.amenities.map((a) => (
-            <div
-              key={a}
-              className="flex items-center space-x-2 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition"
-            >
-              <Checkbox
-                checked={activeFilters.amenities.includes(a)}
-                onCheckedChange={() => toggleFilter("amenities", a)}
-              />
-              <label className="text-gray-700 dark:text-gray-200">{a}</label>
-            </div>
-          ))}
-        </div>
+        {openCategories && (
+          <div className="mt-3 space-y-2">
+            {filterOptions.categories.map((c) => (
+              <div
+                key={c}
+                className="flex items-center space-x-2 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+              >
+                <Checkbox
+                  checked={activeFilters.categories.includes(c)}
+                  onCheckedChange={() => toggleFilter("categories", c)}
+                />
+                <label className="text-gray-700 dark:text-gray-200">{c}</label>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Price */}
-      <div>
-        <h3 className="font-semibold text-gray-700 dark:text-gray-200 mb-3 text-lg">Price Range</h3>
-        <div className="px-2">
-          <Slider
-            defaultValue={[filterOptions.minPrice, filterOptions.maxPrice]}
-            value={price}
-            min={filterOptions.minPrice}
-            max={filterOptions.maxPrice}
-            step={1000}
-            onValueChange={(val) => handlePriceChange([val[0], val[1]])}
-            className="accent-indigo-600 dark:accent-indigo-400"
-          />
+      <div className="border p-3 rounded-md">
+        <div
+          className="flex justify-between items-center cursor-pointer"
+          onClick={() => setOpenPrice(!openPrice)}
+        >
+          <h3 className="font-semibold text-gray-700 dark:text-gray-200 text-lg">
+            Price Range
+          </h3>
+          {openPrice ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
         </div>
-        <div className="flex justify-between text-sm mt-2 text-gray-700 dark:text-gray-300">
-          <span>₹{price[0]}</span>
-          <span>₹{price[1]}</span>
+        {openPrice && (
+          <div className="mt-3 space-y-2">
+            <Slider
+              value={price}
+              min={filterOptions.minPrice}
+              max={filterOptions.maxPrice}
+              step={1000}
+              onValueChange={(val) => handlePriceChange([val[0], val[1]])}
+              className="accent-indigo-600 dark:accent-indigo-400"
+            />
+            <div className="flex justify-between text-sm text-gray-700 dark:text-gray-300">
+              <span>₹{price[0]}</span>
+              <span>₹{price[1]}</span>
+            </div>
+            <div className="flex justify-between text-xs text-gray-400 dark:text-gray-500 mt-1">
+              <span>₹{filterOptions.minPrice}</span>
+              <span>₹{filterOptions.maxPrice}</span>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Radius */}
+      <div className="border p-3 rounded-md">
+        <div
+          className="flex justify-between items-center cursor-pointer"
+          onClick={() => setOpenRadius(!openRadius)}
+        >
+          <h3 className="font-semibold text-gray-700 dark:text-gray-200 text-lg">
+            Radius (km)
+          </h3>
+          {openRadius ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
         </div>
+        {openRadius && (
+          <div className="mt-3">
+            <Slider
+              value={[radius]}
+              min={0}
+              max={filterOptions.maxRadius}
+              step={1}
+              onValueChange={(val) => handleRadiusChange(val[0])}
+            />
+            <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
+              {radius} km
+            </p>
+          </div>
+        )}
+      </div>
+
+      {/* Capacity */}
+      <div className="border p-3 rounded-md">
+        <div
+          className="flex justify-between items-center cursor-pointer"
+          onClick={() => setOpenCapacity(!openCapacity)}
+        >
+          <h3 className="font-semibold text-gray-700 dark:text-gray-200 text-lg">
+            Capacity
+          </h3>
+          {openCapacity ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+        </div>
+        {openCapacity && (
+          <div className="mt-3 space-y-3">
+            {["adults", "bedrooms"].map((type) => (
+              <div key={type}>
+                <label className="block text-sm font-medium text-gray-700 mb-1 capitalize">
+                  {type}
+                </label>
+                <div className="flex items-center space-x-2">
+                  <button
+                    type="button"
+                    className="px-2 py-1 border rounded"
+                    onClick={() => changeCapacity(type as "adults" | "bedrooms", -1)}
+                  >
+                    -
+                  </button>
+                  <span className="px-3 py-1 border rounded">
+                    {activeFilters.capacity?.[type as "adults" | "bedrooms"] ?? 0}
+                  </span>
+                  <button
+                    type="button"
+                    className="px-2 py-1 border rounded"
+                    onClick={() => changeCapacity(type as "adults" | "bedrooms", 1)}
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Locations */}
+      <div className="border p-3 rounded-md">
+        <div
+          className="flex justify-between items-center cursor-pointer"
+          onClick={() => setOpenLocations(!openLocations)}
+        >
+          <h3 className="font-semibold text-gray-700 dark:text-gray-200 text-lg">
+            Locations
+          </h3>
+          {openLocations ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+        </div>
+        {openLocations && (
+          <div className="mt-3 space-y-2">
+            {filterOptions.locations.map((l) => (
+              <div
+                key={l}
+                className="flex items-center space-x-2 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+              >
+                <Checkbox
+                  checked={activeFilters.locations.includes(l)}
+                  onCheckedChange={() => toggleFilter("locations", l)}
+                />
+                <label className="text-gray-700 dark:text-gray-200">{l}</label>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Amenities */}
+      <div className="border p-3 rounded-md">
+        <div
+          className="flex justify-between items-center cursor-pointer"
+          onClick={() => setOpenAmenities(!openAmenities)}
+        >
+          <h3 className="font-semibold text-gray-700 dark:text-gray-200 text-lg">
+            Amenities
+          </h3>
+          {openAmenities ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+        </div>
+        {openAmenities && (
+          <div className="mt-3 space-y-2">
+            {filterOptions.amenities.map((a) => (
+              <div
+                key={a}
+                className="flex items-center space-x-2 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+              >
+                <Checkbox
+                  checked={activeFilters.amenities.includes(a)}
+                  onCheckedChange={() => toggleFilter("amenities", a)}
+                />
+                <label className="text-gray-700 dark:text-gray-200">{a}</label>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

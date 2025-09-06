@@ -9,6 +9,8 @@ const AddOfferModal = ({ show, handleClose }) => {
   const [endDate, setEndDate] = useState("");
   const [properties, setProperties] = useState([]);
   const [selectedProperties, setSelectedProperties] = useState([]);
+  const [selectedname, setSelectedname] = useState("");
+  const [selectednames, setSelectednames] = useState(["EarlyBird","flash sales", "limited-time offers", "pre-order specials", "seasonal sales", "loyalty discounts"]);
 
   useEffect(() => {
     axios
@@ -57,6 +59,7 @@ const AddOfferModal = ({ show, handleClose }) => {
     image.forEach((img) => formData.append("images", img));
     formData.append("startDate", startDate);
     formData.append("endDate", endDate);
+    formData.append("name", selectedname);
 
     try {
       await axios.post(`${import.meta.env.VITE_API_URL}/api/offers/add`, formData, {
@@ -85,6 +88,24 @@ const AddOfferModal = ({ show, handleClose }) => {
         <h2 className="text-2xl font-bold mb-6 text-center">Add New Offer</h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
+
+        <div>
+            <label className="block mb-1 font-semibold">name</label>
+            <select
+              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={selectedname}
+              onChange={(e) => setSelectedname(e.target.value)}
+            >
+              <option value="">Select sale</option>
+              {selectednames.map((cat) => (
+                <option value={cat}>
+                  {cat}
+                </option>
+              ))}
+            </select>
+          </div>
+
+
           <div>
             <label className="block mb-1 font-semibold">Category</label>
             <select

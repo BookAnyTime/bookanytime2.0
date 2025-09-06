@@ -25,6 +25,7 @@ const UpdatePropertyPage = () => {
     images: [],
     whatsappNumber: "",
     instagram: "",
+    call:""
   });
 
   const [existingImages, setExistingImages] = useState([]); // Store existing images
@@ -233,6 +234,7 @@ const UpdatePropertyPage = () => {
 
             {/* WhatsApp & Instagram */}
             <Grid item xs={6}><TextField fullWidth label="WhatsApp Number" name="whatsappNumber" value={formData.whatsappNumber} onChange={handleChange} required /></Grid>
+            <Grid item xs={6}><TextField fullWidth label="phone Number" name="call" value={formData.call} onChange={handleChange} required /></Grid>
             <Grid item xs={6}><TextField fullWidth label="Instagram UserID" name="instagram" value={formData.instagram} onChange={handleChange} required /></Grid>
 
             {/* Submit & Go Back */}

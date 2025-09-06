@@ -25,6 +25,7 @@ const AdminPropertyForm = () => {
     images: [],
     whatsappNumber: "",
     instagram: "",
+    call:""
   });
 
   const [imageFiles, setImageFiles] = useState([]);
@@ -127,6 +128,7 @@ const AdminPropertyForm = () => {
       images: [],
       whatsappNumber: "",
       instagram: "",
+      call:""
     });
     setImageFiles([]);
     setSelectedAmenity("");
@@ -352,6 +354,15 @@ const AdminPropertyForm = () => {
           required
           className="border border-gray-300 rounded px-3 py-2 w-full"
         />
+         <input
+          type="text"
+          name="call"
+          value={formData.call}
+          onChange={handleChange}
+          placeholder="phone Number"
+          required
+          className="border border-gray-300 rounded px-3 py-2 w-full"
+        />
         <input
           type="text"
           name="instagram"
@@ -380,7 +391,9 @@ const AdminPropertyForm = () => {
           </button>
           <button
             type="button"
-            onClick={() => navigate("/admin/properties")}
+            onClick={() => 
+              navigate("/admin/properties")
+            }
             className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400"
           >
             Go Back

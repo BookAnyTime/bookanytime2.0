@@ -34,19 +34,19 @@ const Footer = () => {
           <h4 className="text-lg font-semibold text-white mb-4">Quick Links</h4>
           <ul className="space-y-2">
             <li>
-              <Link to="/" className="hover:text-white transition-colors">Home</Link>
+              <Link to="/" className="hover:text-white transition-colors" target="_blank">Home</Link>
             </li>
             <li>
-              <Link to="/products" className="hover:text-white transition-colors">Properties</Link>
+              <Link to="/products" className="hover:text-white transition-colors" target="_blank">Properties</Link>
             </li>
             <li>
-              <Link to="/about" className="hover:text-white transition-colors">About Us</Link>
+              <Link to="/about" className="hover:text-white transition-colors" target="_blank">About Us</Link>
             </li>
             <li>
-              <Link to="/contact" className="hover:text-white transition-colors">Contact</Link>
+              <Link to="/contact" className="hover:text-white transition-colors" target="_blank">Contact</Link>
             </li>
             <li>
-              <Link to="/blog" className="hover:text-white transition-colors">Blog</Link>
+              <Link to="/blog" className="hover:text-white transition-colors" target="_blank">Blog</Link>
             </li>
           </ul>
         </div>
@@ -56,16 +56,16 @@ const Footer = () => {
           <h4 className="text-lg font-semibold text-white mb-4">Help & Support</h4>
           <ul className="space-y-2">
             <li>
-              <Link to="/faq" className="hover:text-white transition-colors">FAQ</Link>
+              <Link to="/faq" className="hover:text-white transition-colors" target="_blank">FAQ</Link>
             </li>
             <li>
-              <Link to="/terms" className="hover:text-white transition-colors">Terms & Conditions</Link>
+              <Link to="/terms" className="hover:text-white transition-colors" target="_blank">Terms & Conditions</Link>
             </li>
             <li>
-              <Link to="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
+              <Link to="/privacy" className="hover:text-white transition-colors" target="_blank">Privacy Policy</Link>
             </li>
             <li>
-              <Link to="/support" className="hover:text-white transition-colors">Support</Link>
+              <Link to="/support" className="hover:text-white transition-colors" target="_blank">Support</Link>
             </li>
           </ul>
         </div>

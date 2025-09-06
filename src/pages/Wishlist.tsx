@@ -1,8 +1,7 @@
-
 import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
-import { Heart } from "lucide-react";
+import { Heart, ChevronDown, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import PropertyCard from "@/components/PropertyCard";
@@ -11,6 +10,7 @@ const Wishlist = () => {
   const { isAuthenticated } = useAuth();
   const [wishlists, setWishlists] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
   const userId = JSON.parse(localStorage.getItem("user"))?.id; // userId saved on login
 
@@ -65,19 +65,24 @@ const Wishlist = () => {
           console.error("Failed to fetch wishlist", err);
         }
       }
+
       const finalProps = updatedWishlists.map((wishlist) => ({
         ...wishlist,
         properties: wishlist.properties.map((property) => ({
           ...property,
           isWishlisted: wishlistedIds.includes(property._id),
-          wishlistName: wishlist.name
+          wishlistName: wishlist.name,
         })),
       }));
 
-      console.log("updatedWishlists:", updatedWishlists);
-      console.log("finalProps:", finalProps);
-
       setWishlists(finalProps);
+
+      // default expand all wishlists
+      const initialExpanded: Record<string, boolean> = {};
+      finalProps.forEach((wl) => {
+        initialExpanded[wl._id] = true;
+      });
+      setExpanded(initialExpanded);
     } catch (err) {
       console.error("Failed to fetch wishlists", err);
       setWishlists([]);
@@ -115,7 +120,8 @@ const Wishlist = () => {
     }
   };
 
-  if (!isAuthenticated) {
+  // Show "Login Now" if user is not logged in
+  if (!isAuthenticated || !userId) {
     return (
       <div className="container mx-auto px-4 py-16">
         <div className="text-center">
@@ -126,9 +132,12 @@ const Wishlist = () => {
           <p className="text-lg text-muted-foreground mb-8">
             Please log in to view your saved properties.
           </p>
-          <Button asChild>
-            <Link to="/login">Login</Link>
+          {/* Static button, no redirect */}
+          <Link to="/login" target="_blank">
+          <Button>
+            Login Now
           </Button>
+          </Link>
         </div>
       </div>
     );
@@ -156,21 +165,51 @@ const Wishlist = () => {
 
       {wishlists.length > 0 ? (
         wishlists.map((wl) => (
-          <div key={wl._id} className="mb-10">
-            <h2 className="text-2xl font-semibold mb-4">{wl.name}</h2>
-            {wl.properties.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                {wl.properties.map((property: any) => (
-                  <PropertyCard
-                    key={property._id}
-                    property={property}
-                  />
-                ))}
+          <div key={wl._id} className="mb-10 border rounded-lg shadow-sm">
+            <Button
+              className="flex justify-between items-center w-full px-4 py-3 transition rounded-t-lg"
+              onClick={() =>
+                setExpanded((prev) => ({
+                  ...prev,
+                  [wl._id]: !prev[wl._id],
+                }))
+              }
+            >
+              <span className="text-xl font-semibold">
+                {wl.name} ({wl.properties.length})
+              </span>
+              {expanded[wl._id] ? (
+                <ChevronDown className="h-5 w-5" />
+              ) : (
+                <ChevronRight className="h-5 w-5" />
+              )}
+            </Button>
+
+            {expanded[wl._id] && (
+              <div className="p-4">
+                {wl.properties.length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    {wl.properties.map((property: any) => (
+                      <div key={property._id} className="relative group">
+                        <PropertyCard property={property} />
+
+                        {/* Show "Login Now" button overlay on hover */}
+                        {!isAuthenticated && (
+                          <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                            <Button disabled className="cursor-not-allowed">
+                              Login Now
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-muted-foreground">
+                    No properties in this wishlist yet.
+                  </p>
+                )}
               </div>
-            ) : (
-              <p className="text-muted-foreground">
-                No properties in this wishlist yet.
-              </p>
             )}
           </div>
         ))
@@ -184,7 +223,7 @@ const Wishlist = () => {
             Start exploring and save properties you love!
           </p>
           <Button asChild>
-            <Link to="/products">Browse Properties</Link>
+            <Link to="/products" target="_blank">Browse Properties</Link>
           </Button>
         </div>
       )}

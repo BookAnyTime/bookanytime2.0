@@ -30,6 +30,7 @@ import ListYourPropertyLogs from "./components/admin_panel/list-your-property/Li
 import FeedbackAdmin from "./components/admin_panel/feedback/FeedbackAdmin";
 import Footer from "./components/Footer";
 import { About, Blog, Contact, FAQ, Privacy, Support, Terms } from "./pages/About";
+import OffersPage from "./pages/OffersPage";
 
 const queryClient = new QueryClient();
 
@@ -49,22 +50,19 @@ const App = () => {
                 <Route
                   path="/wishlist"
                   element={
-                    <ProtectedRoute>
-                      <Wishlist />
-                    </ProtectedRoute>
+                    <Wishlist />
                   }
                 />
                 <Route
                   path="/maps"
                   element={
-                    <ProtectedRoute>
                       <MapsView />
-                    </ProtectedRoute>
                   }
                 />
                 <Route path="/list-property" element={<ListProperty />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/property/:id" element={<PropertyDetail />} />
+                <Route path="/offer/:id" element={<OffersPage />} />
 
                 <Route
                   path="/admin"

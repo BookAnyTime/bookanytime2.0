@@ -586,7 +586,7 @@ const Index = () => {
             size="lg"
             className="bg-primary hover:bg-primary-hover text-lg px-8 py-4 animate-scale-in"
           >
-            <Link to="/products">Start Exploring</Link>
+            <Link to="/products" target="_blank">Start Exploring</Link>
           </Button>
         </div>
       </section>
@@ -621,15 +621,14 @@ const Index = () => {
                   >
                     <Link
                       key={offer._id}
-                      to={`/products?category=${offer.category
-                        ?.toLowerCase()
-                        .replace(/\s+/g, "-")}`}
+                      to={`/offer/${offer._id}`}
                       className="group"
+                      target="_blank"
                     >
                       <img
                         src={
                           offer.image && offer.image.length > 0
-                            ? `${import.meta.env.VITE_API_URL}${offer.image[0]}`
+                            ? `${offer.image[0]}`
                             : "https://placehold.co/1200x500"
                         }
                         alt={offer.category}
@@ -640,8 +639,7 @@ const Index = () => {
                           {offer.category}
                         </Badge>
                         <h3 className="text-3xl md:text-5xl font-bold mb-2">
-                          {offer.properties?.map((p) => p.name).join(", ") ||
-                            "Special Offer"}
+                          {offer.name}
                         </h3>
                         <p className="text-lg md:text-xl">
                           {new Date(offer.startDate).toLocaleDateString()} –{" "}
@@ -711,10 +709,9 @@ const Index = () => {
               {categories.map((category) => (
                 <Link
                   key={category._id}
-                  to={`/products?category=${category.name
-                    ?.toLowerCase()
-                    .replace(/\s+/g, "-")}`}
+                  to={`/products?category=${category.name}`}
                   className="group"
+                  target="_blank"
                 >
                   <Card className="hover:shadow-brand-lg transition-all duration-300 group-hover:scale-105">
                     <CardContent className="p-0">
@@ -746,7 +743,7 @@ const Index = () => {
               Recently Viewed Properties
             </h2>
             <Button variant="outline" asChild size="sm">
-              <Link to="/products" className="flex items-center">
+              <Link to="/products" className="flex items-center" target="_blank">
                 View All <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
@@ -785,7 +782,7 @@ const Index = () => {
                           </span>
                         </span>
                         <Button size="sm" asChild>
-                          <Link to={`/property/${property.id}`}>View</Link>
+                          <Link to={`/property/${property.id}`} target="_blank">View</Link>
                         </Button>
                       </div>
                     </div>
@@ -797,22 +794,7 @@ const Index = () => {
         </div>
       </section>
 
-      <section className="px-4 sm:px-6 md:px-10 ">
-        <div className="w-full bg-white dark:bg-gray-800 shadow-md rounded-lg p-4 flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0 md:space-x-6">
-          <div className="text-center md:text-left">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-              Are you a property owner?
-            </h3>
-            <p className="text-sm text-gray-600 dark:text-gray-300">
-              List your property on our platform and reach more travelers
-            </p>
-          </div>
-
-          <Link to="/list-property" className="w-full md:w-auto">
-            <Button className="w-full md:w-auto">Add Your Property</Button>
-          </Link>
-        </div>
-      </section>
+     
 
       {/* Why Choose Us Section */}
       <section className="py-16">
@@ -834,6 +816,23 @@ const Index = () => {
               </Card>
             ))}
           </div>
+        </div>
+      </section>
+
+       <section className="px-4 sm:px-6 md:px-10 ">
+        <div className="w-full bg-white dark:bg-gray-800 shadow-md rounded-lg p-4 flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0 md:space-x-6">
+          <div className="text-center md:text-left">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+              Are you a property owner?
+            </h3>
+            <p className="text-sm text-gray-600 dark:text-gray-300">
+              List your property on our platform and reach more travelers
+            </p>
+          </div>
+
+          <Link to="/list-property" className="w-full md:w-auto" target="_blank">
+            <Button className="w-full md:w-auto">Add Your Property</Button>
+          </Link>
         </div>
       </section>
 
