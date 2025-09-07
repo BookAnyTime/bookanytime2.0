@@ -819,7 +819,7 @@ const Index = () => {
         </div>
       </section>
 
-       <section className="px-4 sm:px-6 md:px-10 ">
+       <section className="px-4 sm:px-6 md:px-10 mb-8">
         <div className="w-full bg-white dark:bg-gray-800 shadow-md rounded-lg p-4 flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0 md:space-x-6">
           <div className="text-center md:text-left">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
