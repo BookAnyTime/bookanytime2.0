@@ -88,12 +88,58 @@ const Products = () => {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        setLoading(true);
+         setLoading(true);
         const response = await axios.get<Property[]>(
-          `${import.meta.env.VITE_API_URL}/api/properties/getall`
+           `${import.meta.env.VITE_API_URL}/api/properties/getall`
         );
-        setProperties(response.data);
-        setError(null);
+        const props = response.data;
+
+        // Fetch ratings
+        const propsWithRatings = await Promise.all(
+          props.map(async (property) => {
+            try {
+              const ratingRes = await axios.get<{ rating?: number }>(
+                `${import.meta.env.VITE_API_URL}/api/ratings/${property._id}`
+              );
+              return { ...property, rating: ratingRes.data?.rating ?? 0 };
+            } catch {
+              return { ...property, rating: 0 };
+            }
+          })
+        );
+
+        // Wishlist
+        const wishlistedIds: string[] = [];
+        const wishlistMap: Record<string, string[]> = {};
+        if (userId) {
+          try {
+            const wishlistRes = await axios.get(
+              `${import.meta.env.VITE_API_URL}/api/wishlist/${userId}`
+            );
+            const rawWishlists = Array.isArray(wishlistRes.data)
+              ? wishlistRes.data
+              : [];
+            rawWishlists.forEach((wl: any) => {
+              wl.properties.forEach((propId: string) => {
+                wishlistedIds.push(propId);
+                if (!wishlistMap[propId]) {
+                  wishlistMap[propId] = [];
+                }
+                wishlistMap[propId].push(wl.name);
+              });
+            });
+          } catch (err) {
+            console.error("Failed to fetch wishlist", err);
+          }
+        }
+
+        const finalProps = propsWithRatings.map((p) => ({
+          ...p,
+          isWishlisted: wishlistedIds.includes(p._id),
+          wishlistName: wishlistMap[p._id] ? wishlistMap[p._id][0] : "",
+        }));
+
+        setProperties(finalProps);
       } catch (err) {
         console.error(err);
         setError("Failed to load properties. Please try again later.");
