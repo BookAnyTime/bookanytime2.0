@@ -67,6 +67,9 @@ const Footer = () => {
             <li>
               <Link to="/support" className="hover:text-white transition-colors" target="_blank">Support</Link>
             </li>
+            <li>
+              <Link to="/FeedBack" className="hover:text-white transition-colors" target="_blank">Any Feedbacks</Link>
+            </li>
           </ul>
         </div>
 

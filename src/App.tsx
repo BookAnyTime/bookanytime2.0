@@ -29,7 +29,7 @@ import TrackedData from "./components/admin_panel/tracked_data/TrackedData";
 import ListYourPropertyLogs from "./components/admin_panel/list-your-property/ListPropertyLogs";
 import FeedbackAdmin from "./components/admin_panel/feedback/FeedbackAdmin";
 import Footer from "./components/Footer";
-import { About, Blog, Contact, FAQ, Privacy, Support, Terms } from "./pages/About";
+import { About, Blog, Contact, FAQ, FeedBack, Privacy, Support, Terms } from "./pages/About";
 import OffersPage from "./pages/OffersPage";
 
 const queryClient = new QueryClient();
@@ -139,6 +139,8 @@ const App = () => {
                 <Route path="/terms" element={<Terms />} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/support" element={<Support />} />
+                <Route path="/FeedBack" element={<FeedBack />} />
+
 
                 <Route path="*" element={<NotFound />} />
               </Routes>
