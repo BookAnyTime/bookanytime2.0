@@ -278,10 +278,10 @@ const ListProperty = () => {
       </div>
 
       <SEO
-        title="List Your Property in Hyderabad | BookAnytime"
+        title="List Your Property in BookAnyTime | BookAnytime"
         description="Earn by listing your property on BookAnytime. Reach thousands of travelers looking for premium rentals in Hyderabad."
-        keywords="list property Hyderabad, rent your property, Hyderabad vacation rental listing, BookAnytime property listing"
-        url="https://bookanytime.in/list-property"
+        keywords="list property Hyderabad, rent your property, Hyderabad vacation rental listing, BookAnytime property listing,list property in book any time"
+        url={`${import.meta.env.VITE_URL}/list-property`}
       />
     </div>
   );

@@ -10,6 +10,7 @@ import {
 } from "@react-google-maps/api";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
+import SEO from "@/components/SEO";
 
 interface Property {
   _id: string;
@@ -239,6 +240,13 @@ const MapsView = () => {
           ))}
         </div>
       </div>
+
+      <SEO
+        title="All Properties for Rent in Hyderabad in maps view | BookAnytime"
+        description="View all available properties for rent in Hyderabad. Farmhouses, villas, and luxury stays with instant booking on BookAnytime."
+        keywords="Hyderabad rental properties in map view, BookAnytime Hyderabad in map view, villas for rent Hyderabad in map view, farmhouses Hyderabad in map view, rental maps, bookanytime maps, bookanytime rental maps"
+        url={`${import.meta.env.VITE_URL}/maps`}
+      />
     </div>
   );
 };

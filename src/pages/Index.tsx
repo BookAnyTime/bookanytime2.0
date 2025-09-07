@@ -837,10 +837,10 @@ const Index = () => {
       </section>
 
       <SEO
-        title="BookAnytime | Best Vacation Rentals in Hyderabad"
+        title="BookAnytime | Best Vacation Rentals"
         description="BookAnytime offers the best properties for rent in Hyderabad. Explore farmhouses, villas, and luxury stays for short or long term stays."
-        keywords="Hyderabad vacation rentals, Hyderabad villas, Hyderabad farmhouses, BookAnytime"
-        url="https://bookanytime.in/"
+        keywords="Hyderabad vacation rentals, Hyderabad villas, Hyderabad farmhouses, BookAnytime, Best Vacation Rentals, Best Vacation Rentals in hyderabad"
+        url={`${import.meta.env.VITE_URL}`}
       />
     </div>
   );

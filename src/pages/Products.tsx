@@ -321,7 +321,7 @@ const Products = () => {
         title="All Properties for Rent in Hyderabad | BookAnytime"
         description="View all available properties for rent in Hyderabad. Farmhouses, villas, and luxury stays with instant booking on BookAnytime."
         keywords="Hyderabad rental properties, BookAnytime Hyderabad, villas for rent Hyderabad, farmhouses Hyderabad"
-        url="https://bookanytime.in/products"
+        url={`${import.meta.env.VITE_URL}/product`}
       />
     </div>
   );
