@@ -130,15 +130,6 @@ const Header = () => {
                   <Heart className="h-5 w-5" />
                   <span>Wishlist</span>
                 </Link>
-                <Link
-                  to="/maps"
-                  className="flex items-center space-x-2 text-foreground hover:text-primary transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                  target="_blank"
-                >
-                  <Map className="h-5 w-5" />
-                  <span>View in Maps</span>
-                </Link>
                 <Button asChild variant="default" className="bg-primary hover:bg-primary-hover">
                   <Link to="/list-property" target="_blank">List Your Property</Link>
                 </Button>

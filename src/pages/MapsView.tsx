@@ -10,6 +10,7 @@ import {
 } from "@react-google-maps/api";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
+import { Menu } from "lucide-react"; // mobile toggle icon
 import SEO from "@/components/SEO";
 
 interface Property {
@@ -31,6 +32,7 @@ const MapsView = () => {
   );
   const [radius, setRadius] = useState<number>(10);
   const [activeProperty, setActiveProperty] = useState<Property | null>(null);
+  const [showList, setShowList] = useState(false); // mobile drawer toggle
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
@@ -86,9 +88,9 @@ const MapsView = () => {
   });
 
   return (
-    <div className="w-full h-screen flex">
-      {/* Left: Map */}
-      <div className="w-2/3 h-full relative">
+    <div className="w-full h-screen flex flex-col md:flex-row">
+      {/* Map Section */}
+      <div className="flex-1 h-2/3 md:h-full relative">
         {/* Radius Slider */}
         <div className="absolute top-4 left-4 bg-white shadow-md rounded-lg p-3 z-10 w-48">
           <p className="text-sm font-semibold mb-2">Radius: {radius} km</p>
@@ -101,6 +103,16 @@ const MapsView = () => {
             onValueChange={(val) => setRadius(val[0])}
           />
         </div>
+
+        {/* Mobile: Toggle List Button */}
+        <Button
+          className="absolute top-4 right-4 z-20 md:hidden"
+          variant="outline"
+          size="icon"
+          onClick={() => setShowList((prev) => !prev)}
+        >
+          <Menu className="h-5 w-5" />
+        </Button>
 
         {isLoaded && center && (
           <GoogleMap
@@ -193,8 +205,12 @@ const MapsView = () => {
         )}
       </div>
 
-      {/* Right: Property List */}
-      <div className="w-1/3 h-full overflow-y-auto border-l bg-gray-50 p-4">
+      {/* Property List (Sidebar / Drawer) */}
+      <div
+        className={`bg-gray-50 border-l p-4 w-full md:w-1/3 h-1/3 md:h-full overflow-y-auto transition-transform duration-300
+        fixed bottom-0 left-0 md:static z-30
+        ${showList ? "translate-y-0" : "translate-y-full md:translate-y-0"}`}
+      >
         {/* Header with toggle */}
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-semibold">
@@ -203,19 +219,14 @@ const MapsView = () => {
           <Button
             size="sm"
             variant="outline"
-            onClick={() =>
-              // navigate("/products")
-              window.open("/products", "_blank")
-            }
+            onClick={() => window.open("/products", "_blank")}
           >
             view in Grid
           </Button>
         </div>
 
         {/* Property Cards */}
-        <div
-          className={"grid grid-cols-2 gap-4"}
-        >
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-1 gap-4">
           {filteredProperties.map((p) => (
             <div
               key={p._id}
