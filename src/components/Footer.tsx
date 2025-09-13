@@ -14,16 +14,16 @@ const Footer = () => {
             Discover and book the best stays around the world. Comfortable, verified, and affordable properties.
           </p>
           <div className="flex space-x-4">
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+            <a href="https://facebook.com"  rel="noopener noreferrer">
               <Facebook className="w-5 h-5 hover:text-white transition-colors" />
             </a>
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+            <a href="https://twitter.com"  rel="noopener noreferrer">
               <Twitter className="w-5 h-5 hover:text-white transition-colors" />
             </a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+            <a href="https://instagram.com"  rel="noopener noreferrer">
               <Instagram className="w-5 h-5 hover:text-white transition-colors" />
             </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+            <a href="https://linkedin.com"  rel="noopener noreferrer">
               <Linkedin className="w-5 h-5 hover:text-white transition-colors" />
             </a>
           </div>
@@ -34,19 +34,19 @@ const Footer = () => {
           <h4 className="text-lg font-semibold text-white mb-4">Quick Links</h4>
           <ul className="space-y-2">
             <li>
-              <Link to="/" className="hover:text-white transition-colors" target="_blank">Home</Link>
+              <Link to="/" className="hover:text-white transition-colors" >Home</Link>
             </li>
             <li>
-              <Link to="/products" className="hover:text-white transition-colors" target="_blank">Properties</Link>
+              <Link to="/products" className="hover:text-white transition-colors" >Properties</Link>
             </li>
             <li>
-              <Link to="/about" className="hover:text-white transition-colors" target="_blank">About Us</Link>
+              <Link to="/about" className="hover:text-white transition-colors" >About Us</Link>
             </li>
             <li>
-              <Link to="/contact" className="hover:text-white transition-colors" target="_blank">Contact</Link>
+              <Link to="/contact" className="hover:text-white transition-colors" >Contact</Link>
             </li>
             <li>
-              <Link to="/blog" className="hover:text-white transition-colors" target="_blank">Blog</Link>
+              <Link to="/blog" className="hover:text-white transition-colors" >Blog</Link>
             </li>
           </ul>
         </div>
@@ -56,19 +56,19 @@ const Footer = () => {
           <h4 className="text-lg font-semibold text-white mb-4">Help & Support</h4>
           <ul className="space-y-2">
             <li>
-              <Link to="/faq" className="hover:text-white transition-colors" target="_blank">FAQ</Link>
+              <Link to="/faq" className="hover:text-white transition-colors" >FAQ</Link>
             </li>
             <li>
-              <Link to="/terms" className="hover:text-white transition-colors" target="_blank">Terms & Conditions</Link>
+              <Link to="/terms" className="hover:text-white transition-colors" >Terms & Conditions</Link>
             </li>
             <li>
-              <Link to="/privacy" className="hover:text-white transition-colors" target="_blank">Privacy Policy</Link>
+              <Link to="/privacy" className="hover:text-white transition-colors" >Privacy Policy</Link>
             </li>
             <li>
-              <Link to="/support" className="hover:text-white transition-colors" target="_blank">Support</Link>
+              <Link to="/support" className="hover:text-white transition-colors" >Support</Link>
             </li>
             <li>
-              <Link to="/FeedBack" className="hover:text-white transition-colors" target="_blank">Any Feedbacks</Link>
+              <Link to="/FeedBack" className="hover:text-white transition-colors" >Any Feedbacks</Link>
             </li>
           </ul>
         </div>

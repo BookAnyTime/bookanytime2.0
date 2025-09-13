@@ -200,7 +200,11 @@ const PropertyDetail = () => {
 👥 Guests: ${guests}
 💰 Total Price: ₹${totalPrice + Math.round(totalPrice * 0.1)}`;
 
-    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const isMobile =
+      /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+      "ReactNativeWebView" in window || // ✅ Safe check
+      navigator.userAgent.includes("wv"); // ✅ Detects Android WebView
+
     const baseURL = isMobile
       ? `https://wa.me/91${property.whatsappNumber}`
       : `https://web.whatsapp.com/send?phone=${property.whatsappNumber}`;
@@ -256,7 +260,7 @@ const PropertyDetail = () => {
               {property.instagram && (
                 <a
                   href={`https://instagram.com/${property.instagram}`}
-                  target="_blank"
+                  
                   rel="noopener noreferrer"
                   className="flex items-center space-x-1 text-pink-600 hover:underline"
                 >
@@ -287,7 +291,8 @@ const PropertyDetail = () => {
           </div>
         </div>
         <Badge variant="secondary" className="capitalize">
-          {property.category}
+          {property.category + " With "}
+          👥 guests : {property.capacity.adults} | 🏨 sleeps: {property.capacity.bedrooms}
         </Badge>
       </div>
 
@@ -329,9 +334,7 @@ const PropertyDetail = () => {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">{property.description}</p>
-                <p className="mt-2 text-sm">
-                  👥 Adults: {property.capacity.adults} | 🏨 Bed Rooms: {property.capacity.bedrooms}
-                </p>
+               
               </CardContent>
             </Card>
 

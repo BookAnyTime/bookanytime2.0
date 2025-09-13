@@ -133,7 +133,7 @@ const Wishlist = () => {
             Please log in to view your saved properties.
           </p>
           {/* Static button, no redirect */}
-          <Link to="/login" target="_blank">
+          <Link to="/login" >
           <Button>
             Login Now
           </Button>
@@ -223,7 +223,7 @@ const Wishlist = () => {
             Start exploring and save properties you love!
           </p>
           <Button asChild>
-            <Link to="/products" target="_blank">Browse Properties</Link>
+            <Link to="/products" >Browse Properties</Link>
           </Button>
         </div>
       )}

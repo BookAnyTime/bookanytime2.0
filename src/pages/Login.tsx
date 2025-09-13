@@ -90,7 +90,7 @@ const Login = () => {
           <Link
             to="/"
             className="flex items-center justify-center space-x-2 mb-4"
-            target="_blank"
+            
           >
             <Home className="h-8 w-8 text-primary" />
             <span className="text-2xl font-bold text-primary">BookAnytime</span>

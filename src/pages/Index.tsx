@@ -586,7 +586,7 @@ const Index = () => {
             size="lg"
             className="bg-primary hover:bg-primary-hover text-lg px-8 py-4 animate-scale-in"
           >
-            <Link to="/products" target="_blank">Start Exploring</Link>
+            <Link to="/products" >Start Exploring</Link>
           </Button>
         </div>
       </section>
@@ -623,7 +623,7 @@ const Index = () => {
                       key={offer._id}
                       to={`/offer/${offer._id}`}
                       className="group"
-                      target="_blank"
+                      
                     >
                       <img
                         src={
@@ -711,7 +711,7 @@ const Index = () => {
                   key={category._id}
                   to={`/products?category=${category.name}`}
                   className="group"
-                  target="_blank"
+                  
                 >
                   <Card className="hover:shadow-brand-lg transition-all duration-300 group-hover:scale-105">
                     <CardContent className="p-0">
@@ -743,7 +743,7 @@ const Index = () => {
               Recently Viewed Properties
             </h2>
             <Button variant="outline" asChild size="sm">
-              <Link to="/products" className="flex items-center" target="_blank">
+              <Link to="/products" className="flex items-center" >
                 View All <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
@@ -782,7 +782,7 @@ const Index = () => {
                           </span>
                         </span>
                         <Button size="sm" asChild>
-                          <Link to={`/property/${property.id}`} target="_blank">View</Link>
+                          <Link to={`/property/${property.id}`} >View</Link>
                         </Button>
                       </div>
                     </div>
@@ -830,7 +830,7 @@ const Index = () => {
             </p>
           </div>
 
-          <Link to="/list-property" className="w-full md:w-auto" target="_blank">
+          <Link to="/list-property" className="w-full md:w-auto" >
             <Button className="w-full md:w-auto">Add Your Property</Button>
           </Link>
         </div>

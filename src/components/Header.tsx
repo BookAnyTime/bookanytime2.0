@@ -13,8 +13,8 @@ const Header = () => {
 
   const handleLogout = () => {
     logout();
-    // navigate("/");
-    window.open("/", "_blank")
+    navigate("/");
+    // window.open("/", "_blank");
   };
 
   const isAdmin = user?.isAdmin ?? false;
@@ -27,49 +27,62 @@ const Header = () => {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Brand Logo */}
-          <Link to="/" className="flex items-center space-x-2" target="_blank">
+          <Link to="/" className="flex items-center space-x-2" >
             <Home className="h-8 w-8 text-primary" />
             <span className="text-2xl font-bold text-primary">BookAnytime</span>
           </Link>
 
-
-
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-4">
-
             <Link
-                  to="/wishlist"
-                  className="flex items-center space-x-2 text-foreground hover:text-primary transition-colors"
-                  target="_blank"
-                >
-                  <Heart className="h-5 w-5" />
-                  <span>Wishlist</span>
-                </Link>
+              to="/wishlist"
+              className="flex items-center space-x-2 text-foreground hover:text-primary transition-colors"
+              
+            >
+              <Heart className="h-5 w-5" />
+              <span>Wishlist</span>
+            </Link>
 
             {isAuthenticated && (
               <>
-                <Button asChild variant="default" className="bg-primary hover:bg-primary-hover" target="_blank">
+                <Button
+                  asChild
+                  variant="default"
+                  className="bg-primary hover:bg-primary-hover"
+                  
+                >
                   <Link to="/list-property">List Your Property</Link>
                 </Button>
 
                 {isAdmin && (
-                  <Button asChild variant="outline" className="bg-secondary hover:bg-secondary-hover">
-                   <button
-                    className="bg-secondary text-white px-4 py-2 rounded hover:bg-secondary-hover text-center"
-                    onClick={async() => {
-                       await setMobileMenuOpen(false);
-                       await document.documentElement.classList.toggle("dark", false);
-                       await localStorage.setItem("dark-mode","false");
-                      //  navigate("/admin/properties");
-                       window.open("/admin/properties", "_blank")
-                    }}
+                  <Button
+                    asChild
+                    variant="outline"
+                    className="bg-secondary hover:bg-secondary-hover"
                   >
-                    Admin Panel
-                  </button>
+                    <button
+                      className="bg-secondary text-white px-4 py-2 rounded hover:bg-secondary-hover text-center"
+                      onClick={async () => {
+                        await setMobileMenuOpen(false);
+                        await document.documentElement.classList.toggle(
+                          "dark",
+                          false
+                        );
+                        await localStorage.setItem("dark-mode", "false");
+                         navigate("/admin/properties");
+                        // window.open("/admin/properties", "_blank");
+                      }}
+                    >
+                      Admin Panel
+                    </button>
                   </Button>
                 )}
 
-                <Button variant="ghost" onClick={handleLogout} className="flex items-center space-x-2">
+                <Button
+                  variant="ghost"
+                  onClick={handleLogout}
+                  className="flex items-center space-x-2"
+                >
                   <LogOut className="h-4 w-4" />
                   <span>Logout</span>
                 </Button>
@@ -78,11 +91,19 @@ const Header = () => {
 
             {!isAuthenticated && (
               <>
-                <Button asChild variant="default" className="bg-primary hover:bg-primary-hover">
-                  <Link to="/list-property" target="_blank">List Your Property</Link>
+                <Button
+                  asChild
+                  variant="default"
+                  className="bg-primary hover:bg-primary-hover"
+                >
+                  <Link to="/list-property" >
+                    List Your Property
+                  </Link>
                 </Button>
                 <Button asChild variant="ghost">
-                  <Link to="/login" target="_blank">Login</Link>
+                  <Link to="/login" >
+                    Login
+                  </Link>
                 </Button>
               </>
             )}
@@ -125,24 +146,33 @@ const Header = () => {
                   to="/wishlist"
                   className="flex items-center space-x-2 text-foreground hover:text-primary transition-colors"
                   onClick={() => setMobileMenuOpen(false)}
-                  target="_blank"
+                  
                 >
                   <Heart className="h-5 w-5" />
                   <span>Wishlist</span>
                 </Link>
-                <Button asChild variant="default" className="bg-primary hover:bg-primary-hover">
-                  <Link to="/list-property" target="_blank">List Your Property</Link>
+                <Button
+                  asChild
+                  variant="default"
+                  className="bg-primary hover:bg-primary-hover"
+                >
+                  <Link to="/list-property" >
+                    List Your Property
+                  </Link>
                 </Button>
 
                 {isAdmin && (
                   <button
                     className="bg-secondary text-white px-4 py-2 rounded hover:bg-secondary-hover text-center"
-                    onClick={async() => {
-                       await setMobileMenuOpen(false);
-                       await document.documentElement.classList.toggle("dark", false);
-                       await localStorage.setItem("dark-mode","false");
-                      //  navigate("/admin/properties");
-                       window.open("/admin/properties", "_blank")
+                    onClick={async () => {
+                      await setMobileMenuOpen(false);
+                      await document.documentElement.classList.toggle(
+                        "dark",
+                        false
+                      );
+                      await localStorage.setItem("dark-mode", "false");
+                       navigate("/admin/properties");
+                      // window.open("/admin/properties", "_blank");
                     }}
                   >
                     Admin Panel
@@ -164,19 +194,20 @@ const Header = () => {
 
             {!isAuthenticated && (
               <>
-                <Link
-                 to="/list-property"
-                  className="bg-primary text-white px-4 py-2 rounded hover:bg-primary-hover text-center"
-                  onClick={() => setMobileMenuOpen(false)}
-                  target="_blank"
-                >
-                  List Your Property
-                </Link>
+                <Button>
+                  <Link
+                    to="/list-property"
+                    onClick={() => setMobileMenuOpen(false)}
+                    
+                  >
+                    List Your Property
+                  </Link>
+                </Button>
                 <Link
                   to="/login"
                   className="text-foreground hover:text-primary transition-colors text-center"
                   onClick={() => setMobileMenuOpen(false)}
-                  target="_blank"
+                  
                 >
                   Login
                 </Link>

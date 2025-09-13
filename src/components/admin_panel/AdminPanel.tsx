@@ -372,8 +372,8 @@ const AdminPanel = () => {
 
   const handleLogout = () => {
     logout();
-    // navigate("/");
-    window.open("/", "_blank")
+    navigate("/");
+    // window.open("/", "_blank")
   };
 
   return (
@@ -389,8 +389,8 @@ const AdminPanel = () => {
         {!isMobile && (
           <div className="header-right">
             <Button variant="light" className="me-2" onClick={() => 
-              // navigate("/")
-              window.open("/", "_blank")
+              navigate("/")
+              // window.open("/", "_blank")
               }>
               <Home size={18} /> Back to Home
             </Button>
@@ -415,8 +415,8 @@ const AdminPanel = () => {
         {isMobile && (
           <div className="mt-3">
             <Button variant="light" className="w-100 mb-2" onClick={() => { handleSidebarClick(); 
-              // navigate("/");
-              window.open("/", "_blank")
+              navigate("/");
+              // window.open("/", "_blank")
                }}>
               <Home size={18} /> Back to Home
             </Button>

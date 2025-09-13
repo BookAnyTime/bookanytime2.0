@@ -44,7 +44,7 @@ const ListProperty = () => {
       top: 0,
       behavior: "smooth", // smooth scroll, optional
     });
-    
+
     if (userStr) {
       try {
         const user = JSON.parse(userStr);
@@ -116,7 +116,10 @@ const ListProperty = () => {
     if (!validateForm()) return;
 
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/api/list-property`, formData);
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/list-property`,
+        formData
+      );
 
       toast({
         title: "Property Submitted",
@@ -149,7 +152,10 @@ const ListProperty = () => {
 🏠 Category: ${formData.category}`;
 
     const whatsappNumber = "918088183625"; // ✅ Without '+'
-    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const isMobile =
+      /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+      "ReactNativeWebView" in window || // ✅ Safe check
+      navigator.userAgent.includes("wv"); // ✅ Detects Android WebView
 
     // ✅ Use wa.me for mobile, web.whatsapp for desktop
     const whatsappURL = isMobile

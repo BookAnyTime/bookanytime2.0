@@ -324,8 +324,8 @@ const Products = () => {
                 variant="secondary"
                 className="flex items-center gap-2"
                 onClick={() =>
-                  // navigate("/maps", { state: { properties: filteredProperties } })
-                  window.open("/maps", "_blank")
+                  navigate("/maps", { state: { properties: filteredProperties } })
+                  // window.open("/maps", "_blank")
                 }
               >
                 <MapPin className="w-4 h-4" />

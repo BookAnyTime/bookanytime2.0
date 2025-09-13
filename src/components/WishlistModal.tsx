@@ -42,8 +42,8 @@ const WishlistModal: React.FC<WishlistModalProps> = ({
     if (show) {
       if (!userId) {
         onClose();
-        // navigate("/login");
-        window.open("/login", "_blank")
+        navigate("/login");
+        // window.open("/login", "_blank")
       } else {
         fetchWishlists();
       }

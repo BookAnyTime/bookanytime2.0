@@ -1,9 +1,8 @@
-
 import { useState, useEffect } from "react";
 import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ChevronDown, ChevronUp } from "lucide-react";
-
+import "./Filter.css"
 type Filters = {
   categories: string[];
   locations: string[];
@@ -126,7 +125,7 @@ const ProductFilters = ({
         </button>
       </div>
 
-       {/* Categories */}
+      {/* Categories */}
       <div className="border p-3 rounded-md">
         <div
           className="flex justify-between items-center cursor-pointer"
@@ -174,8 +173,8 @@ const ProductFilters = ({
               max={filterOptions.maxPrice}
               step={1000}
               onValueChange={(val) => handlePriceChange([val[0], val[1]])}
-              className="accent-indigo-600 dark:accent-indigo-400"
             />
+
             <div className="flex justify-between text-sm text-gray-700 dark:text-gray-300">
               <span>₹{price[0]}</span>
               <span>₹{price[1]}</span>
@@ -231,23 +230,86 @@ const ProductFilters = ({
             {["adults", "bedrooms"].map((type) => (
               <div key={type}>
                 <label className="block text-sm font-medium text-gray-700 mb-1 capitalize">
-                  {type}
+                  {type=="adults"?"guests":"sleeps"}
                 </label>
                 <div className="flex items-center space-x-2">
                   <button
                     type="button"
                     className="px-2 py-1 border rounded"
-                    onClick={() => changeCapacity(type as "adults" | "bedrooms", -1)}
+                    onClick={() => {
+                      const current = activeFilters.capacity ?? {
+                        adults: 0,
+                        bedrooms: 0,
+                      };
+                      const max =
+                        filterOptions.maxCapacity[
+                          type as "adults" | "bedrooms"
+                        ];
+                      const newValue = Math.max(
+                        0,
+                        current[type as "adults" | "bedrooms"] - 1
+                      );
+                      onFiltersChange({
+                        ...activeFilters,
+                        capacity: {
+                          ...current,
+                          [type]: Math.min(newValue, max),
+                        },
+                      });
+                    }}
                   >
                     -
                   </button>
-                  <span className="px-3 py-1 border rounded">
-                    {activeFilters.capacity?.[type as "adults" | "bedrooms"] ?? 0}
-                  </span>
+
+                  <input
+                    type="number"
+                    className="px-2 py-1 border rounded w-12 text-center"
+                    value={
+                      activeFilters.capacity?.[type as "adults" | "bedrooms"] ??
+                      0
+                    }
+                    onChange={(e) => {
+                      const value = Number(e.target.value);
+                      const current = activeFilters.capacity ?? {
+                        adults: 0,
+                        bedrooms: 0,
+                      };
+                      const max =
+                        filterOptions.maxCapacity[
+                          type as "adults" | "bedrooms"
+                        ];
+                      onFiltersChange({
+                        ...activeFilters,
+                        capacity: {
+                          ...current,
+                          [type]: Math.min(Math.max(0, value), max),
+                        },
+                      });
+                    }}
+                  />
+
                   <button
                     type="button"
                     className="px-2 py-1 border rounded"
-                    onClick={() => changeCapacity(type as "adults" | "bedrooms", 1)}
+                    onClick={() => {
+                      const current = activeFilters.capacity ?? {
+                        adults: 0,
+                        bedrooms: 0,
+                      };
+                      const max =
+                        filterOptions.maxCapacity[
+                          type as "adults" | "bedrooms"
+                        ];
+                      const newValue =
+                        current[type as "adults" | "bedrooms"] + 1;
+                      onFiltersChange({
+                        ...activeFilters,
+                        capacity: {
+                          ...current,
+                          [type]: Math.min(newValue, max),
+                        },
+                      });
+                    }}
                   >
                     +
                   </button>
