@@ -208,7 +208,7 @@ const isMobile =
 
 // WhatsApp URL
 const whatsappURL = isMobile
-  ? `https://api.whatsapp.com/send?phone=91${property.whatsappNumber}&text=${encodeURIComponent(message)}` // Mobile will open WhatsApp app if installed
+  ? `https://api.whatsapp.com/send?phone=${property.whatsappNumber}&text=${encodeURIComponent(message)}` // Mobile will open WhatsApp app if installed
   : `https://web.whatsapp.com/send?phone=${property.whatsappNumber}&text=${encodeURIComponent(message)}`; // Desktop/web
 
 window.open(whatsappURL, "_blank");
