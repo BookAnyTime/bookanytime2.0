@@ -179,10 +179,10 @@ const ProductFilters = ({
               <span>₹{price[0]}</span>
               <span>₹{price[1]}</span>
             </div>
-            <div className="flex justify-between text-xs text-gray-400 dark:text-gray-500 mt-1">
+            {/* <div className="flex justify-between text-xs text-gray-400 dark:text-gray-500 mt-1">
               <span>₹{filterOptions.minPrice}</span>
               <span>₹{filterOptions.maxPrice}</span>
-            </div>
+            </div> */}
           </div>
         )}
       </div>
