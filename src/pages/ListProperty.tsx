@@ -142,30 +142,31 @@ const ListProperty = () => {
   };
 
   // ✅ Contact via WhatsApp
-  const handleWhatsApp = () => {
-    if (!validateForm()) return;
+ const handleWhatsApp = () => {
+  if (!validateForm()) return;
 
-    const message = `Hello, my name is ${formData.name}. I want to list my property.
+  const message = `Hello, my name is ${formData.name}. I want to list my property.
 
 📞 Phone: ${formData.phone}
 📧 Email: ${formData.email}
 🏠 Category: ${formData.category}`;
 
-    const whatsappNumber = "918088183625"; // ✅ Without '+'
-    const isMobile =
-      /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
-      "ReactNativeWebView" in window || // ✅ Safe check
-      navigator.userAgent.includes("wv"); // ✅ Detects Android WebView
+  const whatsappNumber = "918088183625"; // Without '+'
 
-    // ✅ Use wa.me for mobile, web.whatsapp for desktop
-    const whatsappURL = isMobile
-      ? `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`
-      : `https://web.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(
-          message
-        )}`;
+  const isMobile =
+    /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+    "ReactNativeWebView" in window || // React Native WebView
+    navigator.userAgent.includes("wv"); // Android WebView
 
-    window.open(whatsappURL, "_blank");
-  };
+  // Mobile: opens WhatsApp app if installed
+  // Desktop: opens web WhatsApp
+  const whatsappURL = isMobile
+    ? `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(message)}`
+    : `https://web.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(message)}`;
+
+  window.open(whatsappURL, "_blank");
+};
+
 
   return (
     <div className="container mx-auto px-4 py-8">

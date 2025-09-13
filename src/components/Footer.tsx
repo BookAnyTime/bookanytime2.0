@@ -81,7 +81,7 @@ const Footer = () => {
               <Phone className="w-4 h-4 mr-2" /> +91 80881 83625
             </li>
             <li className="flex items-center">
-              <Mail className="w-4 h-4 mr-2" /> support@bookanywhere.com
+              <Mail className="w-4 h-4 mr-2" /> bookanytimeinfo@gmail.co
             </li>
             <li className="flex items-center">
               <Globe className="w-4 h-4 mr-2" /> www.bookanywhere.com

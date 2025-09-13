@@ -192,24 +192,27 @@ const PropertyDetail = () => {
     }
 
     const message = `Hello, I would like to book *${property.name}* (${
-      property.category
-    }) in ${property.city}.
+  property.category
+}) in ${property.city}.
 📍 Address: ${property.address}
 📅 Check-in: ${format(checkIn, "MMM dd, yyyy")}
 📅 Check-out: ${format(checkOut, "MMM dd, yyyy")}
 👥 Guests: ${guests}
 💰 Total Price: ₹${totalPrice + Math.round(totalPrice * 0.1)}`;
 
-    const isMobile =
-      /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
-      "ReactNativeWebView" in window || // ✅ Safe check
-      navigator.userAgent.includes("wv"); // ✅ Detects Android WebView
+// Detect mobile (including React Native WebView)
+const isMobile =
+  /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+  "ReactNativeWebView" in window || 
+  navigator.userAgent.includes("wv"); 
 
-    const baseURL = isMobile
-      ? `https://wa.me/91${property.whatsappNumber}`
-      : `https://web.whatsapp.com/send?phone=${property.whatsappNumber}`;
-    const whatsappURL = `${baseURL}&text=${encodeURIComponent(message)}`;
-    window.open(whatsappURL, "_blank");
+// WhatsApp URL
+const whatsappURL = isMobile
+  ? `https://api.whatsapp.com/send?phone=91${property.whatsappNumber}&text=${encodeURIComponent(message)}` // Mobile will open WhatsApp app if installed
+  : `https://web.whatsapp.com/send?phone=${property.whatsappNumber}&text=${encodeURIComponent(message)}`; // Desktop/web
+
+window.open(whatsappURL, "_blank");
+
   };
 
   const handleShare = async () => {
