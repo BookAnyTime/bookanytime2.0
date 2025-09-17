@@ -238,7 +238,7 @@ import { Button } from "@/components/ui/button";
 import { Heart, ChevronDown, ChevronRight, Trash } from "lucide-react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import PropertyCard2 from "@/components/PropertyCard2";
+import PropertyCard2 from "@/components/Propertycard2";
 
 const Wishlist = () => {
   const { isAuthenticated } = useAuth();
