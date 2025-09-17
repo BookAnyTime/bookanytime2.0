@@ -1,4 +1,3 @@
-
 // import { ChevronLeft, ChevronRight } from "lucide-react";
 // import { useEffect, useState } from "react";
 // import axios from "axios";
@@ -49,7 +48,6 @@
 //       icon: "🛏️",
 //     },
 //   ];
-
 
 //   useEffect(() => {
 //     window.scrollTo({
@@ -389,7 +387,6 @@
 //         </div>
 //       </section>
 
-
 //       {/* Why Choose Us Section */}
 //       <section className="py-16">
 //         <div className="container mx-auto px-4">
@@ -425,11 +422,10 @@
 
 // export default Index;
 
-
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -446,6 +442,7 @@ const Index = () => {
 
   const [featuredProperties, setFeaturedProperties] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const navigate = useNavigate();
 
   const whyChooseUs = [
     {
@@ -586,7 +583,7 @@ const Index = () => {
             size="lg"
             className="bg-primary hover:bg-primary-hover text-lg px-8 py-4 animate-scale-in"
           >
-            <Link to="/products" >Start Exploring</Link>
+            <Link to="/products">Start Exploring</Link>
           </Button>
         </div>
       </section>
@@ -623,7 +620,6 @@ const Index = () => {
                       key={offer._id}
                       to={`/offer/${offer._id}`}
                       className="group"
-                      
                     >
                       <img
                         src={
@@ -711,7 +707,6 @@ const Index = () => {
                   key={category._id}
                   to={`/products?category=${category.name}`}
                   className="group"
-                  
                 >
                   <Card className="hover:shadow-brand-lg transition-all duration-300 group-hover:scale-105">
                     <CardContent className="p-0">
@@ -736,65 +731,63 @@ const Index = () => {
       </section>
 
       {/* Recently Viewed Properties Section */}
-      <section className="py-12">
-        <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center mb-8">
-            <h2 className="text-2xl md:text-3xl font-bold">
-              Recently Viewed Properties
-            </h2>
-            <Button variant="outline" asChild size="sm">
-              <Link to="/products" className="flex items-center" >
-                View All <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-
-          {featuredProperties.length === 0 ? (
-            <p className="text-center text-muted-foreground">
-              No recently viewed properties available
-            </p>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-              {featuredProperties.slice(0, 3).map((property) => (
-                <Card
-                  key={property.id}
-                  className="hover:shadow-brand-md transition-shadow group"
-                >
-                  <CardContent className="p-0">
-                    <img
-                      src={property.image}
-                      alt={property.name}
-                      className="w-full h-32 md:h-36 object-cover rounded-t-lg group-hover:scale-105 transition-transform duration-300"
-                    />
-                    <div className="p-4">
-                      <h3 className="text-lg font-semibold mb-1">
-                        {property.name}
-                      </h3>
-                      <div className="flex items-center text-muted-foreground text-sm mb-2">
-                        <MapPin className="h-3 w-3 mr-1" />
-                        {property.city}
-                      </div>
-                      <div className="flex justify-between items-center text-sm">
-                        <span className="font-bold">
-                          ₹{property.minPrice} - ₹{property.maxPrice}
-                          <span className="text-xs text-muted-foreground">
-                            /night
-                          </span>
-                        </span>
-                        <Button size="sm" asChild>
-                          <Link to={`/property/${property.id}`} >View</Link>
-                        </Button>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+      {featuredProperties.length != 0 && (
+        <section className="py-12">
+          <div className="container mx-auto px-4">
+            <div className="flex justify-between items-center mb-8">
+              <h2 className="text-2xl md:text-3xl font-bold">
+                Recently Viewed Properties
+              </h2>
+              <Button variant="outline" asChild size="sm">
+                <Link to="/products" className="flex items-center">
+                  View All <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
             </div>
-          )}
-        </div>
-      </section>
 
-     
+            {featuredProperties.length === 0 ? (
+              <p className="text-center text-muted-foreground">
+                No recently viewed properties available
+              </p>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                {featuredProperties.slice(0, 3).map((property) => (
+                  <Card
+                    key={property.id}
+                    className="hover:shadow-brand-md transition-shadow group"
+                    onClick={() => navigate(`/property/${property.id}`)}
+                  >
+                    <CardContent className="p-0">
+                      <img
+                        src={property.image}
+                        alt={property.name}
+                        className="w-full h-32 md:h-36 object-cover rounded-t-lg group-hover:scale-105 transition-transform duration-300"
+                      />
+                      <div className="p-4">
+                        <h3 className="text-lg font-semibold mb-1">
+                          {property.name}
+                        </h3>
+                        <div className="flex items-center text-muted-foreground text-sm mb-2">
+                          <MapPin className="h-3 w-3 mr-1" />
+                          {property.city}
+                        </div>
+                        <div className="flex justify-between items-center text-sm">
+                          <span className="font-bold">
+                            ₹{property.minPrice} - ₹{property.maxPrice}
+                            <span className="text-xs text-muted-foreground">
+                              /night
+                            </span>
+                          </span>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
+          </div>
+        </section>
+      )}
 
       {/* Why Choose Us Section */}
       <section className="py-16">
@@ -819,7 +812,7 @@ const Index = () => {
         </div>
       </section>
 
-       <section className="px-4 sm:px-6 md:px-10 mb-8">
+      <section className="px-4 sm:px-6 md:px-10 mb-8">
         <div className="w-full bg-white dark:bg-gray-800 shadow-md rounded-lg p-4 flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0 md:space-x-6">
           <div className="text-center md:text-left">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -830,7 +823,7 @@ const Index = () => {
             </p>
           </div>
 
-          <Link to="/list-property" className="w-full md:w-auto" >
+          <Link to="/list-property" className="w-full md:w-auto">
             <Button className="w-full md:w-auto">Add Your Property</Button>
           </Link>
         </div>
@@ -847,4 +840,3 @@ const Index = () => {
 };
 
 export default Index;
-

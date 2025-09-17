@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import "./Filter.css"
+import "./Filter.css";
 type Filters = {
   categories: string[];
   locations: string[];
@@ -175,10 +175,30 @@ const ProductFilters = ({
               onValueChange={(val) => handlePriceChange([val[0], val[1]])}
             />
 
-            <div className="flex justify-between text-sm text-gray-700 dark:text-gray-300">
-              <span>₹{price[0]}</span>
-              <span>₹{price[1]}</span>
+            <div className="flex space-x-4 pt-2 justify-evenly">
+              <input
+                type="number"
+                value={price[0]}
+                min={filterOptions.minPrice}
+                max={price[1]} // prevent min > max
+                onChange={(e) =>
+                  handlePriceChange([Number(e.target.value), price[1]])
+                }
+                className="w-20 p-1 border rounded text-sm text-gray-700 dark:text-gray-300"
+              />
+              <span className="mx-1">-</span>
+              <input
+                type="number"
+                value={price[1]}
+                min={price[0]} // prevent max < min
+                max={filterOptions.maxPrice}
+                onChange={(e) =>
+                  handlePriceChange([price[0], Number(e.target.value)])
+                }
+                className="w-20 p-1 border rounded text-sm text-gray-700 dark:text-gray-300"
+              />
             </div>
+
             {/* <div className="flex justify-between text-xs text-gray-400 dark:text-gray-500 mt-1">
               <span>₹{filterOptions.minPrice}</span>
               <span>₹{filterOptions.maxPrice}</span>
@@ -188,7 +208,7 @@ const ProductFilters = ({
       </div>
 
       {/* Radius */}
-      <div className="border p-3 rounded-md">
+      {/* <div className="border p-3 rounded-md">
         <div
           className="flex justify-between items-center cursor-pointer"
           onClick={() => setOpenRadius(!openRadius)}
@@ -212,7 +232,7 @@ const ProductFilters = ({
             </p>
           </div>
         )}
-      </div>
+      </div> */}
 
       {/* Capacity */}
       <div className="border p-3 rounded-md">
@@ -230,9 +250,10 @@ const ProductFilters = ({
             {["adults", "bedrooms"].map((type) => (
               <div key={type}>
                 <label className="block text-sm font-medium text-gray-700 mb-1 capitalize">
-                  {type=="adults"?"guests":"sleeps"}
+                  {type === "adults" ? "guests" : "sleeps"}
                 </label>
                 <div className="flex items-center space-x-2">
+                  {/* Decrement */}
                   <button
                     type="button"
                     className="px-2 py-1 border rounded"
@@ -241,10 +262,6 @@ const ProductFilters = ({
                         adults: 0,
                         bedrooms: 0,
                       };
-                      const max =
-                        filterOptions.maxCapacity[
-                          type as "adults" | "bedrooms"
-                        ];
                       const newValue = Math.max(
                         0,
                         current[type as "adults" | "bedrooms"] - 1
@@ -253,7 +270,7 @@ const ProductFilters = ({
                         ...activeFilters,
                         capacity: {
                           ...current,
-                          [type]: Math.min(newValue, max),
+                          [type]: newValue,
                         },
                       });
                     }}
@@ -261,6 +278,7 @@ const ProductFilters = ({
                     -
                   </button>
 
+                  {/* Input */}
                   <input
                     type="number"
                     className="px-2 py-1 border rounded w-12 text-center"
@@ -274,20 +292,21 @@ const ProductFilters = ({
                         adults: 0,
                         bedrooms: 0,
                       };
-                      const max =
-                        filterOptions.maxCapacity[
-                          type as "adults" | "bedrooms"
-                        ];
+                      let maxValue =
+                        type === "adults"
+                          ? 15 // limit guests to 15
+                          : filterOptions.maxCapacity[type as "bedrooms"];
                       onFiltersChange({
                         ...activeFilters,
                         capacity: {
                           ...current,
-                          [type]: Math.min(Math.max(0, value), max),
+                          [type]: Math.min(Math.max(0, value), maxValue),
                         },
                       });
                     }}
                   />
 
+                  {/* Increment */}
                   <button
                     type="button"
                     className="px-2 py-1 border rounded"
@@ -296,17 +315,17 @@ const ProductFilters = ({
                         adults: 0,
                         bedrooms: 0,
                       };
-                      const max =
-                        filterOptions.maxCapacity[
-                          type as "adults" | "bedrooms"
-                        ];
+                      let maxValue =
+                        type === "adults"
+                          ? 15
+                          : filterOptions.maxCapacity[type as "bedrooms"];
                       const newValue =
                         current[type as "adults" | "bedrooms"] + 1;
                       onFiltersChange({
                         ...activeFilters,
                         capacity: {
                           ...current,
-                          [type]: Math.min(newValue, max),
+                          [type]: Math.min(newValue, maxValue),
                         },
                       });
                     }}

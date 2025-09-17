@@ -84,7 +84,7 @@ const Footer = () => {
               <Mail className="w-4 h-4 mr-2" /> bookanytimeinfo@gmail.co
             </li>
             <li className="flex items-center">
-              <Globe className="w-4 h-4 mr-2" /> www.bookanywhere.com
+              <Globe className="w-4 h-4 mr-2" /> www.bookanytime.in
             </li>
             <li className="mt-4 text-sm text-gray-500">
               &copy; {new Date().getFullYear()} BookAnywhere. All rights reserved.

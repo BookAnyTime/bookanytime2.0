@@ -2,35 +2,26 @@ import { useState, useEffect } from "react";
 import { Sun, Moon } from "lucide-react";
 
 const DarkModeToggle = () => {
-  const [darkMode, setDarkMode] = useState(false);
-
-  // Determine initial mode
-  useEffect(() => {
+  const [darkMode, setDarkMode] = useState<boolean>(() => {
+    // Initialize state from localStorage or system time
     const saved = localStorage.getItem("dark-mode");
-
     if (saved !== null) {
-      // Use user preference from previous session
-      setDarkMode(saved === "true");
+      return saved === "true";
     } else {
-      // Auto mode based on time if no user preference
       const hour = new Date().getHours();
-      if (hour >= 18 || hour < 6) {
-        setDarkMode(true); // 6 PM - 6 AM -> dark
-      } else {
-        setDarkMode(false); // 6 AM - 6 PM -> light
-      }
+      return hour >= 18 || hour < 6; // Dark mode by default 6 PM - 6 AM
     }
-  }, []);
+  });
 
-  // Apply dark class to html and save preference
   useEffect(() => {
+    // Apply dark class to html and save preference
     document.documentElement.classList.toggle("dark", darkMode);
     localStorage.setItem("dark-mode", darkMode.toString());
   }, [darkMode]);
 
   return (
     <button
-      onClick={() => setDarkMode(!darkMode)}
+      onClick={() => setDarkMode(prev => !prev)}
       className="p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
       aria-label="Toggle Dark Mode"
     >

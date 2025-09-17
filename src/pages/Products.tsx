@@ -83,6 +83,7 @@ const Products = () => {
   );
   const initialCategoryApplied = useRef(false);
   const navigate = useNavigate();
+  
 
   // Fetch properties
   useEffect(() => {
@@ -98,10 +99,21 @@ const Products = () => {
         const propsWithRatings = await Promise.all(
           props.map(async (property) => {
             try {
-              const ratingRes = await axios.get<{ rating?: number }>(
+              const ratingRes = await axios.get<{ rating?: number }[]>(
                 `${import.meta.env.VITE_API_URL}/api/ratings/${property._id}`
               );
-              return { ...property, rating: ratingRes.data?.rating ?? 0 };
+
+              const ratings = ratingRes.data;
+              const avgRating =
+                ratings.length > 0
+                ? ratings.reduce((sum, r) => sum + r.rating, 0) / ratings.length
+                : 5;
+
+              const roundedRating = Math.round(avgRating * 10) / 10;
+
+
+
+              return { ...property, rating: roundedRating };
             } catch {
               return { ...property, rating: 0 };
             }

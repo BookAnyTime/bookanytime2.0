@@ -22,6 +22,7 @@ import {
 import { format } from "date-fns";
 import WishlistModal from "../components/WishlistModal";
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
+import RatingsGrid from "./RatingsGrid";
 
 const PropertyDetail = () => {
   const { id } = useParams();
@@ -191,28 +192,37 @@ const PropertyDetail = () => {
       return;
     }
 
-    const message = `Hello, I would like to book *${property.name}* (${
-  property.category
-}) in ${property.city}.
+const user = JSON.parse(localStorage.getItem("user"));
+const userName = "Hi i am "+user?.fullName || "Hi there";
+
+const currentUrl = window.location.href;
+
+const message = `${userName}, i saw your property on *BookAnyTime* and would like to book it:
+🏠 Property: *${property.name}* (${property.category})
 📍 Address: ${property.address}
-📅 Check-in: ${format(checkIn, "MMM dd, yyyy")}
-📅 Check-out: ${format(checkOut, "MMM dd, yyyy")}
+🔗 Link: ${currentUrl}
+📅 Check-in: ${checkIn ? format(checkIn, "MMM dd, yyyy") : "-"}
+📅 Check-out: ${checkOut ? format(checkOut, "MMM dd, yyyy") : "-"}
 👥 Guests: ${guests}
-💰 Total Price: ₹${totalPrice + Math.round(totalPrice * 0.1)}`;
+`;
 
-// Detect mobile (including React Native WebView)
-const isMobile =
-  /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
-  "ReactNativeWebView" in window || 
-  navigator.userAgent.includes("wv"); 
 
-// WhatsApp URL
-const whatsappURL = isMobile
-  ? `https://api.whatsapp.com/send?phone=${property.whatsappNumber}&text=${encodeURIComponent(message)}` // Mobile will open WhatsApp app if installed
-  : `https://web.whatsapp.com/send?phone=${property.whatsappNumber}&text=${encodeURIComponent(message)}`; // Desktop/web
+    // Detect mobile (including React Native WebView)
+    const isMobile =
+      /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+      "ReactNativeWebView" in window ||
+      navigator.userAgent.includes("wv");
 
-window.open(whatsappURL, "_blank");
+    // WhatsApp URL
+    const whatsappURL = isMobile
+      ? `https://api.whatsapp.com/send?phone=${
+          property.whatsappNumber
+        }&text=${encodeURIComponent(message)}` // Mobile will open WhatsApp app if installed
+      : `https://web.whatsapp.com/send?phone=${
+          property.whatsappNumber
+        }&text=${encodeURIComponent(message)}`; // Desktop/web
 
+    window.open(whatsappURL, "_blank");
   };
 
   const handleShare = async () => {
@@ -246,12 +256,12 @@ window.open(whatsappURL, "_blank");
           <div>
             <h1 className="text-3xl font-bold mb-2">{property.name}</h1>
             <div className="flex items-center space-x-4 text-muted-foreground">
-              <div className="flex items-center space-x-1">
+              {/* <div className="flex items-center space-x-1">
                 <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
                 <span>{property.popularity}</span>
-              </div>
+              </div> */}
               {avgRating && (
-                <div className="flex items-center space-x-1 ml-4">
+                <div className="flex items-center space-x-1">
                   <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
                   <span>{avgRating.toFixed(1)}</span>
                 </div>
@@ -263,7 +273,6 @@ window.open(whatsappURL, "_blank");
               {property.instagram && (
                 <a
                   href={`https://instagram.com/${property.instagram}`}
-                  
                   rel="noopener noreferrer"
                   className="flex items-center space-x-1 text-pink-600 hover:underline"
                 >
@@ -295,7 +304,8 @@ window.open(whatsappURL, "_blank");
         </div>
         <Badge variant="secondary" className="capitalize">
           {property.category + " With "}
-          👥 guests : {property.capacity.adults} | 🏨 sleeps: {property.capacity.bedrooms}
+          👥 guests : {property.capacity.adults} | 🏨 sleeps:{" "}
+          {property.capacity.bedrooms}
         </Badge>
       </div>
 
@@ -313,13 +323,13 @@ window.open(whatsappURL, "_blank");
           )}
 
           {/* Sub images / thumbnails */}
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
+          <div className="flex space-x-2 overflow-x-auto scrollbar-hide py-2">
             {property.images?.map((img: string, i: number) => (
               <img
                 key={i}
                 src={img}
                 alt={`${property.name}-${i}`}
-                className={`w-full h-24 object-cover rounded-lg cursor-pointer border ${
+                className={`flex-shrink-0 w-32 h-24 object-cover rounded-lg cursor-pointer border ${
                   selectedImage === img
                     ? "border-4 border-primary"
                     : "border border-gray-200"
@@ -337,7 +347,6 @@ window.open(whatsappURL, "_blank");
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">{property.description}</p>
-               
               </CardContent>
             </Card>
 
@@ -438,7 +447,7 @@ window.open(whatsappURL, "_blank");
               </div>
 
               {/* Price breakdown */}
-              {totalNights > 0 && (
+              {/* {totalNights > 0 && (
                 <div className="space-y-2 pt-4 border-t">
                   <div className="flex justify-between">
                     <span>
@@ -455,7 +464,7 @@ window.open(whatsappURL, "_blank");
                     <span>₹{totalPrice + Math.round(totalPrice * 0.1)}</span>
                   </div>
                 </div>
-              )}
+              )} */}
 
               {/* Action buttons */}
               <Button
@@ -474,6 +483,15 @@ window.open(whatsappURL, "_blank");
           </Card>
         </div>
       </div>
+
+      {/* Ratings */}
+      {ratings.length > 0 && (
+        <div className="mt-8 space-y-4">
+          <h2 className="text-2xl font-bold">Guest Reviews</h2>
+
+          <RatingsGrid ratings={ratings} />
+        </div>
+      )}
 
       {/* Google Map */}
       {isLoaded && property.latitude && property.longitude && (
@@ -495,41 +513,6 @@ window.open(whatsappURL, "_blank");
           </GoogleMap>
         </div>
       )}
-
-      {/* Ratings */}
-      {ratings.length > 0 && (
-        <div className="mt-8 space-y-4">
-          <h2 className="text-2xl font-bold">Guest Reviews</h2>
-          {ratings.map((r) => (
-            <Card key={r._id}>
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <span className="font-semibold">{r.username}</span>
-                  <div className="flex items-center">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <Star
-                        key={i}
-                        className={`h-4 w-4 ${
-                          i < r.rating
-                            ? "fill-yellow-400 text-yellow-400"
-                            : "text-gray-300"
-                        }`}
-                      />
-                    ))}
-                  </div>
-                </div>
-                <span className="text-sm text-muted-foreground">
-                  {r.month} {r.year}
-                </span>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">{r.description}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      )}
-
       {/* Wishlist Modal */}
       <WishlistModal
         show={showWishlistModal}
