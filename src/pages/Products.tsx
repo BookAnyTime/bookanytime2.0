@@ -152,6 +152,9 @@ const Products = () => {
         }));
 
         setProperties(finalProps);
+        setcategoryFromUrl(searchParams.get("category"))
+
+        
       } catch (err) {
         console.error(err);
         setError("Failed to load properties. Please try again later.");
@@ -161,6 +164,16 @@ const Products = () => {
     };
     fetchProperties();
   }, [userId]);
+
+  useEffect(() => {
+  if (properties.length > 0) {
+    const maxPropertyPrice = Math.max(...properties.map((p) => p.maxPrice), 1000000);
+    setActiveFilters((prev) => ({
+      ...prev,
+      priceRange: [0, maxPropertyPrice],
+    }));
+  }
+}, [properties]);
 
   // Extract filters
   const filterOptions = useMemo(() => {
