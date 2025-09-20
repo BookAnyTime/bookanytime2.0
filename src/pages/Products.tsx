@@ -539,7 +539,7 @@ const Products = () => {
         setLoading(true);
 
         // ✅ Fetch both properties and offers simultaneously
-        const [propertiesResponse, offersResponse] = await Promise.all([
+        const [propertiesResult, offersResult] = await Promise.allSettled([
           axios.get<Property[]>(
             `${import.meta.env.VITE_API_URL}/api/properties/getall`
           ),
@@ -548,8 +548,24 @@ const Products = () => {
           ),
         ]);
 
-        const props = propertiesResponse.data;
-        const fetchedOffers = offersResponse.data;
+        // properties
+        let properties: Property[] = [];
+        if (propertiesResult.status === "fulfilled") {
+          properties = propertiesResult.value.data;
+        } else {
+          console.error("Failed to fetch properties:", propertiesResult.reason);
+        }
+
+        // offers
+        let offers: Offer[] = [];
+        if (offersResult.status === "fulfilled") {
+          offers = offersResult.value.data;
+        } else {
+          console.error("Failed to fetch offers:", offersResult.reason);
+        }
+
+        const props = properties;
+        const fetchedOffers = offers;
 
         console.log("Fetched offers:", fetchedOffers);
         setOffers(fetchedOffers);
