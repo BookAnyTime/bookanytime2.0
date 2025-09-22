@@ -1,46 +1,126 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Homepage -->
-  <url>
-    <loc>https://bookanytime.in/</loc>
-    <lastmod>2025-09-22</lastmod>
-    <priority>1.0</priority>
-  </url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 
-   <url>
-    <loc>https://bookanytime.in/products</loc>
-    <lastmod>2025-09-22</lastmod>
-    <priority>1.0</priority>
-  </url>
+        <url>
+          <loc>https://bookanytime.in/</loc>
+          <lastmod>2025-09-22</lastmod>
+          <priority>1</priority>
+        </url>
 
-  <!-- Example static pages -->
-  <url>
-    <loc>https://bookanytime.in/wishlist</loc>
-    <lastmod>2025-09-22</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://bookanytime.in/list-your-property</loc>
-    <lastmod>2025-09-22</lastmod>
-    <priority>0.8</priority>
-  </url>
+        <url>
+          <loc>https://bookanytime.in/products</loc>
+          <lastmod>2025-09-22</lastmod>
+          <priority>1</priority>
+        </url>
 
-  <!-- Example property page -->
-  <url>
-    <loc>https://bookanytime.in/maps</loc>
-    <lastmod>2025-09-22</lastmod>
-    <priority>0.9</priority>
-  </url>
+        <url>
+          <loc>https://bookanytime.in/wishlist</loc>
+          <lastmod>2025-09-22</lastmod>
+          <priority>0.8</priority>
+        </url>
 
-  <url>
-    <loc>https://bookanytime.in/about</loc>
-    <lastmod>2025-09-22</lastmod>
-    <priority>0.7</priority>
-  </url>
+        <url>
+          <loc>https://bookanytime.in/list-your-property</loc>
+          <lastmod>2025-09-22</lastmod>
+          <priority>0.8</priority>
+        </url>
 
-  <url>
-    <loc>https://bookanytime.in/contact</loc>
-    <lastmod>2025-09-22</lastmod>
-    <priority>0.7</priority>
-  </url>
+        <url>
+          <loc>https://bookanytime.in/maps</loc>
+          <lastmod>2025-09-22</lastmod>
+          <priority>0.9</priority>
+        </url>
+
+        <url>
+          <loc>https://bookanytime.in/about</loc>
+          <lastmod>2025-09-22</lastmod>
+          <priority>0.7</priority>
+        </url>
+
+        <url>
+          <loc>https://bookanytime.in/contact</loc>
+          <lastmod>2025-09-22</lastmod>
+          <priority>0.7</priority>
+        </url>
+
+        <url>
+          <loc>https://bookanytime.in/products/68a7f9aa975863f49d8bb8a7</loc>
+          <lastmod>2025-09-22</lastmod>
+          <priority>0.8</priority>
+          <image:image>
+                 <image:loc>https://bookanytimeserver2-0.onrender.com/uploads/1758091609716-Screenshot 2024-01-31 184654.png</image:loc>
+                 <image:title>avasa</image:title>
+               </image:image>
+        </url>
+
+        <url>
+          <loc>https://bookanytime.in/products/68b85d28ccd438be46319bd6</loc>
+          <lastmod>2025-09-22</lastmod>
+          <priority>0.8</priority>
+          <image:image>
+                 <image:loc>https://bookanytimeserver2-0.onrender.com/uploads/1756912936063-Screenshot 2024-01-31 192423.png</image:loc>
+                 <image:title>Kanuparthi Kasyap</image:title>
+               </image:image>
+        </url>
+
+        <url>
+          <loc>https://bookanytime.in/products/68bb1e325cc4b139886bada9</loc>
+          <lastmod>2025-09-22</lastmod>
+          <priority>0.8</priority>
+          <image:image>
+                 <image:loc>https://bookanytimeserver2-0.onrender.com/uploads/1757093426471-Screenshot 2024-01-31 192423.png</image:loc>
+                 <image:title>Kanuparthi Kasyap</image:title>
+               </image:image>
+        </url>
+
+        <url>
+          <loc>https://bookanytime.in/products/68bb1f1f442b2c825df4b1e3</loc>
+          <lastmod>2025-09-22</lastmod>
+          <priority>0.8</priority>
+          <image:image>
+                 <image:loc>https://bookanytimeserver2-0.onrender.com/uploads/1757093663045-Screenshot 2024-01-31 192423.png</image:loc>
+                 <image:title>Kanuparthi Kasyap</image:title>
+               </image:image>
+        </url>
+
+        <url>
+          <loc>https://bookanytime.in/products/68bb22d882176486273d1efa</loc>
+          <lastmod>2025-09-22</lastmod>
+          <priority>0.8</priority>
+          <image:image>
+                 <image:loc>https://bookanytimeserver2-0.onrender.com/uploads/1757094615893-Screenshot 2024-02-06 201016.png</image:loc>
+                 <image:title>Kanuparthi Kasyap</image:title>
+               </image:image>
+        </url>
+
+        <url>
+          <loc>https://bookanytime.in/products/68bc1ad6b9096828440ed45f</loc>
+          <lastmod>2025-09-22</lastmod>
+          <priority>0.8</priority>
+          <image:image>
+                 <image:loc>https://bookanytimeserver2-0.onrender.com/uploads/1757158102119-Screenshot 2024-01-31 184531.png</image:loc>
+                 <image:title>krishna palace</image:title>
+               </image:image>
+        </url>
+
+        <url>
+          <loc>https://bookanytime.in/products/68bc1b60b9096828440ed4a4</loc>
+          <lastmod>2025-09-22</lastmod>
+          <priority>0.8</priority>
+          <image:image>
+                 <image:loc>https://bookanytimeserver2-0.onrender.com/uploads/1757158239964-Screenshot 2024-04-15 234122.png</image:loc>
+                 <image:title>krishna peral</image:title>
+               </image:image>
+        </url>
+
+        <url>
+          <loc>https://bookanytime2.netlify.app/offer/68b72857a61557ef6a43cf61</loc>
+          <lastmod>2025-09-22</lastmod>
+          <priority>0.9</priority>
+          <image:image>
+                 <image:loc>https://bookanytimeserver2-0.onrender.com/uploads/1757157711678-Screenshot 2024-02-06 200959.png</image:loc>
+                 <image:title>flash sales</image:title>
+               </image:image>
+        </url>
 </urlset>

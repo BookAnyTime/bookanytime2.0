@@ -449,9 +449,9 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
-import { Heart, LogOut, User } from "lucide-react";
+import { Heart, HelpCircle, LogIn, LogOut, MessageSquare, PlusSquare, ShieldCheck, User } from "lucide-react";
 import DarkModeToggle from "@/DarkModeToggle";
-import logo from '../assets/logo.png'
+import logo from "../assets/logo.png";
 
 const Header = () => {
   const { user, logout, isAuthenticated } = useAuth();
@@ -474,7 +474,7 @@ const Header = () => {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Brand Logo */}
-          <Link to="/" className="flex items-center space-x-2">
+          <Link to="/" className="flex items-center space-x-2" onClick={()=>setMobileMenuOpen(false)}>
             <img
               src={logo}
               alt="BookAnytime Logo"
@@ -600,116 +600,106 @@ const Header = () => {
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center space-x-2">
             <DarkModeToggle />
-            <Button
-              variant="ghost"
-              size="icon"
+            <button
+              className="p-2 rounded-full hover:bg-accent transition"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
-            </Button>
+              <User className="h-6 w-6" />
+            </button>
           </div>
         </div>
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <nav className="flex flex-col md:hidden mt-4 space-y-2">
-            {isAuthenticated && (
-              <>
-                <Link
-                  to="/wishlist"
-                  className="flex items-center space-x-2 text-foreground hover:text-primary transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <Heart className="h-5 w-5" />
-                  <span>Wishlist</span>
-                </Link>
-                <Button
-                  asChild
-                  variant="default"
-                  className="bg-primary hover:bg-primary-hover"
-                >
-                  <Link to="/list-property">List Your Property</Link>
-                </Button>
+  <nav className="flex flex-col md:hidden mt-4 space-y-2">
+    {isAuthenticated ? (
+      <>
+        <Link
+          to="/wishlist"
+          className="flex items-center px-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200  transition-colors text-sm font-medium shadow-sm"
+          onClick={() => setMobileMenuOpen(false)}
+        >
+          <Heart className="h-5 w-5 mr-3 text-red-500" />
+          Wishlist
+        </Link>
 
-                {/* Admin Panel for Mobile */}
-                {isAdmin && (
-                  <button
-                    className="bg-secondary text-white px-4 py-2 rounded hover:bg-secondary-hover text-center"
-                    onClick={async () => {
-                      await setMobileMenuOpen(false);
-                      await document.documentElement.classList.toggle(
-                        "dark",
-                        false
-                      );
-                      await localStorage.setItem("dark-mode", "false");
-                      navigate("/admin/properties");
-                    }}
-                  >
-                    Admin Panel
-                  </button>
-                )}
+        <Link
+          to="/faq"
+          className="flex items-center px-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200  transition-colors text-sm font-medium shadow-sm"
+          onClick={() => setMobileMenuOpen(false)}
+        >
+          <HelpCircle  className="h-5 w-5 mr-3 text-blue-500" />
+          FAQ
+        </Link>
 
-                {/* Profile Options inside mobile */}
-                <Link
-                  to="/faq"
-                  className="text-foreground hover:text-primary transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  FAQ
-                </Link>
-                <Link
-                  to="/feedback"
-                  className="text-foreground hover:text-primary transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Feedback
-                </Link>
-                <button
-                  onClick={() => {
-                    handleLogout();
-                    setMobileMenuOpen(false);
-                  }}
-                  className="flex items-center space-x-2 text-foreground hover:text-primary transition-colors"
-                >
-                  <LogOut className="h-4 w-4" />
-                  <span>Logout</span>
-                </button>
-              </>
-            )}
+        <Link
+          to="/feedback"
+          className="flex items-center px-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200  transition-colors text-sm font-medium shadow-sm"
+          onClick={() => setMobileMenuOpen(false)}
+        >
+          <MessageSquare className="h-5 w-5 mr-3 text-green-500" />
+          Feedback
+        </Link>
 
-            {!isAuthenticated && (
-              <>
-                <Button>
-                  <Link
-                    to="/list-property"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    List Your Property
-                  </Link>
-                </Button>
-                <Link
-                  to="/login"
-                  className="text-foreground hover:text-primary transition-colors text-center"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Login
-                </Link>
-              </>
-            )}
-          </nav>
+        <Link
+          to="/list-property"
+          className="flex items-center px-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200  transition-colors text-sm font-medium shadow-sm"
+          onClick={() => setMobileMenuOpen(false)}
+        >
+          <PlusSquare  className="h-5 w-5 mr-3 text-purple-500" />
+          List Your Property
+        </Link>
+
+        {isAdmin && (
+          <button
+            className="flex items-center px-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200  transition-colors text-sm font-medium shadow-sm"
+            onClick={() => {
+              setMobileMenuOpen(false);
+              document.documentElement.classList.toggle("dark", false);
+              localStorage.setItem("dark-mode", "false");
+              navigate("/admin/properties");
+            }}
+          >
+            <ShieldCheck className="h-5 w-5 mr-3 text-yellow-500" />
+            Admin Panel
+          </button>
         )}
+
+        <button
+          onClick={() => {
+            handleLogout();
+            setMobileMenuOpen(false);
+          }}
+          className="flex items-center px-4 py-3 rounded-lg bg-red-100 dark:bg-red-800 text-red-600 dark:text-red-400 hover:bg-red-500 hover:text-white transition-colors text-sm font-medium shadow-sm"
+        >
+          <LogOut className="h-5 w-5 mr-3" />
+          Logout
+        </button>
+      </>
+    ) : (
+      <>
+        <Link
+          to="/list-property"
+          className="flex items-center px-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200  transition-colors text-sm font-medium shadow-sm"
+          onClick={() => setMobileMenuOpen(false)}
+        >
+          <PlusSquare  className="h-5 w-5 mr-3 text-purple-500" />
+          List Your Property
+        </Link>
+
+        <Link
+          to="/login"
+          className="flex items-center px-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200  transition-colors text-sm font-medium shadow-sm"
+          onClick={() => setMobileMenuOpen(false)}
+        >
+          <LogIn className="h-5 w-5 mr-3 text-blue-500" />
+          Login
+        </Link>
+      </>
+    )}
+  </nav>
+)}
+
       </div>
     </header>
   );

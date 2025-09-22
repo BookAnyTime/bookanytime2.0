@@ -584,6 +584,7 @@ const ProductFilters = ({
   const [openPrice, setOpenPrice] = useState(true);
   const [openRadius, setOpenRadius] = useState(false); // Usually closed by default
   const [openCapacity, setOpenCapacity] = useState(true);
+  const [locationSearch, setLocationSearch] = useState("");
 
   useEffect(() => {
     if (!location && navigator.geolocation) {
@@ -857,7 +858,7 @@ const ProductFilters = ({
       </div>
 
       {/* Locations */}
-      <div className="border p-3 rounded-md">
+      {/* <div className="border p-3 rounded-md">
         <div
           className="flex justify-between items-center cursor-pointer"
           onClick={() => setOpenLocations(!openLocations)}
@@ -881,6 +882,50 @@ const ProductFilters = ({
                 <label className="text-gray-700 dark:text-gray-200">{l}</label>
               </div>
             ))}
+          </div>
+        )}
+      </div> */}
+
+      <div className="border p-3 rounded-md">
+        <div
+          className="flex justify-between items-center cursor-pointer"
+          onClick={() => setOpenLocations(!openLocations)}
+        >
+          <h3 className="font-semibold text-gray-700 dark:text-gray-200 text-lg">
+            Locations
+          </h3>
+          {openLocations ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+        </div>
+        {openLocations && (
+          <div className="mt-3 space-y-2">
+            {/* Search bar */}
+            <input
+              type="text"
+              value={locationSearch}
+              onChange={(e) => setLocationSearch(e.target.value)}
+              placeholder="Search locations..."
+              className="w-full p-2 border rounded text-gray-700 dark:text-gray-300 dark:bg-gray-800 mb-2"
+            />
+
+            {/* Filtered locations */}
+            {filterOptions.locations
+              .filter((l) =>
+                l.toLowerCase().includes(locationSearch.toLowerCase())
+              )
+              .map((l) => (
+                <div
+                  key={l}
+                  className="flex items-center space-x-2 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+                >
+                  <Checkbox
+                    checked={activeFilters.locations.includes(l)}
+                    onCheckedChange={() => toggleFilter("locations", l)}
+                  />
+                  <label className="text-gray-700 dark:text-gray-200">
+                    {l}
+                  </label>
+                </div>
+              ))}
           </div>
         )}
       </div>

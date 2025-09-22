@@ -11,3 +11,7 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
+[functions."generate-sitemap"]
+  schedule = "0 0 */7 * *" # Every 7 days at midnight UTC
+
