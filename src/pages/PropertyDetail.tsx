@@ -192,12 +192,12 @@ const PropertyDetail = () => {
       return;
     }
 
-const user = JSON.parse(localStorage.getItem("user"));
-const userName = "Hi i am "+user?.fullName || "Hi there";
+    const user = JSON.parse(localStorage.getItem("user"));
+    const userName = "Hi i am " + user?.fullName || "Hi there";
 
-const currentUrl = window.location.href;
+    const currentUrl = window.location.href;
 
-const message = `${userName}, i saw your property on *BookAnyTime* and would like to book it:
+    const message = `${userName}, i saw your property on *BookAnyTime* and would like to book it:
 🏠 Property: *${property.name}* (${property.category})
 📍 Address: ${property.address}
 🔗 Link: ${currentUrl}
@@ -205,7 +205,6 @@ const message = `${userName}, i saw your property on *BookAnyTime* and would lik
 📅 Check-out: ${checkOut ? format(checkOut, "MMM dd, yyyy") : "-"}
 👥 Guests: ${guests}
 `;
-
 
     // Detect mobile (including React Native WebView)
     const isMobile =
@@ -495,7 +494,7 @@ const message = `${userName}, i saw your property on *BookAnyTime* and would lik
 
       {/* Google Map */}
       {isLoaded && property.latitude && property.longitude && (
-        <div className="w-full h-96 mt-8 rounded-lg overflow-hidden">
+        <div className="w-full h-96 mt-8 rounded-lg overflow-hidden relative">
           <GoogleMap
             mapContainerStyle={{ width: "100%", height: "100%" }}
             center={{
@@ -511,8 +510,24 @@ const message = `${userName}, i saw your property on *BookAnyTime* and would lik
               }}
             />
           </GoogleMap>
+
+          {/* Navigate Button */}
+          <div className="absolute bottom-3 left-3">
+            <button
+              onClick={() =>
+                window.open(
+                  `https://www.google.com/maps/dir/?api=1&destination=${property.latitude},${property.longitude}`,
+                  "_blank"
+                )
+              }
+              className="bg-primary text-white px-4 py-2 rounded-lg shadow hover:bg-primary/90"
+            >
+              Navigate
+            </button>
+          </div>
         </div>
       )}
+
       {/* Wishlist Modal */}
       <WishlistModal
         show={showWishlistModal}

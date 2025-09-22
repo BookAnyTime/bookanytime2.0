@@ -12,4 +12,5 @@ input[type=number] {
 
 .dark input[type=number] {
   color: rgb(0, 0, 0);
+  background-color: aliceblue;
 }

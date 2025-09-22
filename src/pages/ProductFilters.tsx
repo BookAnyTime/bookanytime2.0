@@ -534,6 +534,7 @@ import { useState, useEffect } from "react";
 import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import "./Filter.css";
 
 type Filters = {
   categories: string[];
@@ -632,6 +633,24 @@ const ProductFilters = ({
     setPrice([filterOptions.minPrice, filterOptions.maxPrice]);
     setRadius(0);
   };
+
+  useEffect(() => {
+    // Update cleared filters or states when filterOptions change
+    const clearedFilters: Filters = {
+      categories: [],
+      locations: [],
+      amenities: [],
+      offers: [],
+      priceRange: [filterOptions.minPrice, filterOptions.maxPrice],
+      radius: 0,
+      userLocation: location,
+      capacity: { adults: 0, bedrooms: 0 },
+    };
+
+    onFiltersChange(clearedFilters);
+    setPrice([filterOptions.minPrice, filterOptions.maxPrice]);
+    setRadius(0);
+  }, [filterOptions, location]);
 
   const updateCapacity = (type: "adults" | "bedrooms", value: number) => {
     const currentCapacity = activeFilters.capacity || {
@@ -799,7 +818,7 @@ const ProductFilters = ({
             {["adults", "bedrooms"].map((type) => (
               <div key={type}>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1 capitalize">
-                  {type === "adults" ? "Guests" : "Bedrooms"}
+                  {type === "adults" ? "Guests" : "sleeps"}
                 </label>
                 <div className="flex items-center space-x-2">
                   <button

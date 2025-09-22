@@ -756,7 +756,10 @@ const Index = () => {
                   <Card
                     key={property.id}
                     className="hover:shadow-brand-md transition-shadow group"
-                    onClick={() => navigate(`/property/${property.id}`)}
+                    onClick={() =>
+                      //  navigate(`/property/${property.id}`)
+                      window.open(`/property/${property.id}`, "_blank")
+                      }
                   >
                     <CardContent className="p-0">
                       <img

@@ -16,7 +16,7 @@ interface WishlistModalProps {
   onClose: () => void;
   userId: string | null;
   propertyId: string;
-  onWishlistUpdate: () => void;
+  onWishlistUpdate: (wishlistName?: string) => void;
 }
 
 const WishlistModal: React.FC<WishlistModalProps> = ({
@@ -98,7 +98,7 @@ const WishlistModal: React.FC<WishlistModalProps> = ({
       });
 
       await fetchWishlists();
-      onWishlistUpdate();
+      onWishlistUpdate(selectedWishlist);
       toast({
         title: "added to wishlist",
         description: `goto ${selectedWishlist} wishlist to view product.`,
@@ -215,7 +215,7 @@ const WishlistModal: React.FC<WishlistModalProps> = ({
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-md">
             <div className="flex justify-between items-center p-4 border-b">
-              <h2 className="text-lg font-semibold">Create New Wishlist</h2>
+              <h2 className="text-lg font-semibold text-black">Create New Wishlist</h2>
               <button
                 onClick={() => setShowCreateModal(false)}
                 className="text-gray-500 hover:text-gray-700"
@@ -225,7 +225,7 @@ const WishlistModal: React.FC<WishlistModalProps> = ({
             </div>
 
             <div className="p-4">
-              <label className="block text-sm font-medium mb-1">
+              <label className="block text-sm font-medium mb-1 text-black">
                 Wishlist Name
               </label>
               <input
@@ -234,7 +234,7 @@ const WishlistModal: React.FC<WishlistModalProps> = ({
                 value={wishlistName}
                 onChange={(e) => setWishlistName(e.target.value)}
                 disabled={loading}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
               />
             </div>
 

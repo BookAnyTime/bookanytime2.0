@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
@@ -9,7 +8,6 @@ import WishlistModal from "@/components/WishlistModal";
 import { useAuth } from "@/contexts/AuthContext";
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast";
-
 
 interface PropertyCardProps {
   property: {
@@ -25,33 +23,32 @@ interface PropertyCardProps {
     amenities: string[];
     rating?: number;
     isWishlisted?: boolean; // ✅ added
-    wishlistName:string
+    wishlistName: string;
   };
   showRemoveFromWishlist?: boolean;
   onWishlistUpdate?: () => void;
 }
 
-const PropertyCard = ({
-  property,
-}: PropertyCardProps) => {
+const PropertyCard = ({ property }: PropertyCardProps) => {
   const { user } = useAuth();
   const [wishlistModalOpen, setWishlistModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [isWishlisted, setIsWishlisted] = useState(property.isWishlisted ?? false);
+  const [isWishlisted, setIsWishlisted] = useState(
+    property.isWishlisted ?? false
+  );
+  const [wishlistName, setWishlistName] = useState(property.wishlistName || "");
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  const userId =  JSON.parse(localStorage.getItem("user"))?.id;
+  const userId = JSON.parse(localStorage.getItem("user"))?.id;
 
   // ✅ Sync when parent updates property.isWishlisted
   useEffect(() => {
-    console.log(property)
+    console.log(property);
     setIsWishlisted(property.isWishlisted ?? false);
   }, [property.isWishlisted]);
 
-
-
-    const handleRemove = () => {
+  const handleRemove = () => {
     if (isWishlisted) {
       handleunlike();
     } else {
@@ -68,16 +65,21 @@ const PropertyCard = ({
       //   propertyId: property._id,
       // });
 
-      await axios.delete(`${import.meta.env.VITE_API_URL}/api/wishlist/${userId}/remove`, {
-        headers: { "Content-Type": "application/json" },
-        data: { propertyId : property._id, wishlistName : property.wishlistName },
-      });
+      await axios.delete(
+        `${import.meta.env.VITE_API_URL}/api/wishlist/${userId}/remove`,
+        {
+          headers: { "Content-Type": "application/json" },
+          data: {
+            propertyId: property._id,
+            wishlistName: wishlistName,
+          },
+        }
+      );
       setIsWishlisted(false);
       toast({
         title: "Removed from wishlist",
         description: `${property.name} was removed from your wishlist.`,
       });
-      
     } catch (error) {
       console.error("Error removing from wishlist:", error);
     } finally {
@@ -87,13 +89,13 @@ const PropertyCard = ({
 
   return (
     <>
-      <Card className="overflow-hidden hover:shadow-brand-lg transition-all duration-300 group" >
+      <Card className="overflow-hidden hover:shadow-brand-lg transition-all duration-300 group">
         <div className="relative">
           <img
             src={property.images?.[0] || "/placeholder.jpg"}
             alt={property.name}
             className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-            onClick={()=>
+            onClick={() =>
               // navigate(`/property/${property._id}`)
               window.open(`/property/${property._id}`, "_blank")
             }
@@ -110,7 +112,7 @@ const PropertyCard = ({
             size="icon"
             disabled={loading}
             onClick={() => {
-              handleRemove()
+              handleRemove();
             }}
             className="absolute top-3 right-3 bg-background/80 hover:bg-background"
           >
@@ -122,10 +124,13 @@ const PropertyCard = ({
           </Button>
         </div>
 
-        <CardContent className="p-4" onClick={()=>
-          // navigate(`/property/${property._id}`)
-          window.open(`/property/${property._id}`, "_blank")
-          }>
+        <CardContent
+          className="p-4"
+          onClick={() =>
+            // navigate(`/property/${property._id}`)
+            window.open(`/property/${property._id}`, "_blank")
+          }
+        >
           <div className="space-y-2">
             {/* Rating */}
             <div className="flex items-center space-x-2">
@@ -179,8 +184,15 @@ const PropertyCard = ({
           onClose={() => setWishlistModalOpen(false)}
           userId={userId!}
           propertyId={property._id}
-          onWishlistUpdate={() => {
-            setIsWishlisted(true);
+          onWishlistUpdate={(name) => {
+            if (name) {
+              setIsWishlisted(true);
+              setWishlistName(name); // ✅ store wishlist name
+              toast({
+                title: "Added to wishlist",
+                description: `Added to "${name}" wishlist.`,
+              });
+            }
           }}
         />
       )}
